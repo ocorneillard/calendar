@@ -30,8 +30,7 @@ export default class Meeting {
     let end = new Date(res.end).getHours();
     let minutes = new Date(res.start).getMinutes();
     end = minutes === 30 ? end + 0.5 : end;
-    console.log(start + " " + end);
-    let firstTime = true
+    let firstTime = true;
     
     for (let i = start; i < end; i = i + 0.5) {
       let replaceDot = String(i).replace(/\./g,'-');
@@ -39,7 +38,6 @@ export default class Meeting {
         selectUI = `.h${i}`;
       }
       selectUI = `.h${replaceDot}`;
-      console.log(selectUI);
       let selectUI = document.querySelector(selectUI + `.d${new Date(res.start).getDate()}`);
       selectUI.style.background = "rgba(189,189,189, 0.2)";
       selectUI.style.borderLeft = "2rem solid rgba(189,189,189, 0.6)";
