@@ -1,0 +1,52 @@
+.card
+  @include mboxshadow(3)
+  background: #fff
+  border-radius: 0.2rem
+  position: absolute
+  height: 28.8rem
+  margin: 1.6rem
+  position: relative
+  width: 35rem
+  border-radius: 3px
+
+
+  margin-bottom: 16rem
+
+  &__top
+    height: 2.588rem
+    background: #303F9F
+    border-top-left-radius: 3px
+    border-top-right-radius: 3px
+    @include mboxshadow(1)
+
+    &-center 
+      padding-top: 5%
+      color: $text
+
+    &-btn
+      position: absolute
+      background: #FF5722
+      height: 4.188rem
+      width: 4.188rem
+      border-radius: 50%
+      bottom: -1.6rem
+      right: 2rem
+      @include mboxshadow(2)
+
+  &__content
+    padding: 3.2rem
+
+    &-primary
+      color: $primary-text
+      padding-bottom: 0.435rem
+    
+    &-secondary
+      color: $secondary-text
+
+  &__footer
+    padding: 3.2rem
+
+.info
+  position: absolute
+  top: 10%
+  right: 0

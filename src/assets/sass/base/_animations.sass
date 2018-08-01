@@ -1,0 +1,63 @@
+.daytext
+  animation: 0.3s test cubic-bezier(.25, .8, .25, 1)
+
+.event
+  animation: 2s event cubic-bezier(.25, .8, .25, 1)
+
+.event:hover
+  background: rgba(white, 0.5)
+.month .previous--month:hover, .month .next--month:hover
+  cursor: pointer
+  transform: translateY(-2px)
+  @include mboxshadow(1)
+
+.month .previous--month:active, .month .next--month:active
+  cursor: pointer
+  transform: translateY(1px)
+
+.calendar-grid-day:hover
+  background: rgba($divider-color, 0.2)
+
+.h1
+  transition: all 0.1s easein
+
+
+.hour-event:hover
+  background: rgba($divider-color, 0.1)
+  cursor: pointer
+
+
+@keyframes arrowLeft
+  0%
+    background: $secondary-text
+    color: 
+
+@keyframes test
+  0%
+    opacity: 0
+    transform: translateX(-5px)
+
+  100%
+    opacity: 1
+    transform: translateX(0px)
+
+@keyframes event
+  0%
+    opacity: 0
+  100%
+    opacity: 1
+
+
+@keyframes card
+  0%
+    transform: scaleY(0)
+    opacity: 0
+  100%
+    transform: scaleY(1)
+    opacity: 1
+
+@keyframes grid
+  0%
+    opacity: 1
+  100%
+    opacity: 0

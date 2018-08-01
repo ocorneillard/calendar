@@ -1,0 +1,28 @@
+.navbar
+  background-color: $yellow
+  position: fixed
+  height: 4.5rem
+  bottom: 0px
+  width: 100vw
+  @include mboxshadow()
+  z-index: 5
+  padding-top: 0.5rem
+  padding-bottom: 0.5rem
+
+  .navbar--homepage
+    margin-left: 0.5rem
+    position: relative
+
+  .add-event
+    position: absolute
+    float: right
+    right: 5rem
+    top: -3rem
+    padding: 1.1rem 2rem
+    border-radius: 50%
+    color: $dark-primary-color
+    background: white
+    transform: scale(1.1)
+    cursor: pointer
+    @include mboxshadow(1)
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1)
