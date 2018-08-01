@@ -55,7 +55,7 @@ nextMonth.addEventListener('click', (e) => {
   e.preventDefault();
 });
 
-calendarGrid.addEventListener('click', (e) => {
+calendarGrid.addEventListener('click', (event) => {
   if (event.target.className === "calendar-grid-day cm") {
     let saveDay = event.target.childNodes[0].innerText;
     calendarDay.year = CalendarUI.year;
@@ -63,7 +63,7 @@ calendarGrid.addEventListener('click', (e) => {
     let firstDay = new Date(CalendarUI.year, CalendarUI.month, saveDay, 8).getTime();
     let lastDay = new Date(CalendarUI.year, CalendarUI.month, (Number(saveDay) +1), 22).getTime();
     storage.getMeeting(firstDay, lastDay);
-    e.preventDefault();
+    event.preventDefault();
   }
 
   // if (event.target.className === "event" ) {
@@ -71,12 +71,16 @@ calendarGrid.addEventListener('click', (e) => {
   // }
 });
 
-calendarDay.CalendarGrid.addEventListener('click', (e) => {
+calendarDay.CalendarGrid.addEventListener('click', (event) => {
   if (event.target.className.split(" ")[0] === "hour-event" && event.target.innerText === "") {
-    let hour = parseFloat(event.target.className.split(" ")[1].split("h")[1]);
+    let hour = event.target.className.split(" ")[1].split("h")[1];
+    if (hour.split("-")[1] === "5") {
+      hour = parseFloat(hour) + ":30";
+    }
+    console.log(event.target.className.split(" ")[1].split("h")[1]);
     meeting.oneMeetingDay(hour);
   }
-  e.preventDefault();
+  event.preventDefault();
 });
 
 

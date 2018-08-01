@@ -100,11 +100,16 @@ export default class Meeting {
     if ( info.childNodes.length !== 0) {
       info.innerHTML = '';
     }
-    let txt = "Create a meeting at " + hour + "hours.";
+    let txt = "New meeting at " + hour + "h";
     let card = Meeting.createDiv(undefined, "card");
     let cardContent = Meeting.createDiv(undefined, "card__content");
     let cardPrimary = Meeting.createDiv(txt, "card__content-primary");
+    let cardSecond = Meeting.createDiv("name : ", "card__content-secondary");
+    let cardSecondInput = document.createElement('input');
+    cardSecondInput.setAttribute('type', 'text');
+    cardSecond.appendChild(cardSecondInput);
     cardContent.appendChild(cardPrimary);
+    cardContent.appendChild(cardSecond);
     card.appendChild(cardContent);
     info.appendChild(card);
 
