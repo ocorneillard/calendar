@@ -28,7 +28,7 @@ export default class CalendarDay {
     let hour = document.createElement('div');
     hour.className = "hour";
     let hourEvent = document.createElement('div');
-    hourEvent.className = `hour-event h${replaceDot}`;
+    hourEvent.className = `hour-event h${replaceDot} d${this.day}`;
     if (i % 1 === 0) {
       if (i < 12) {
         hour.innerText = `${i}am`;

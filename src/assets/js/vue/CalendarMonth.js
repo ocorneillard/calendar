@@ -30,9 +30,9 @@ export default class Calendar {
     let checkFirstMonth = false;
     allDate.forEach((date) => {
         for (let i = checkFirstMonth === false ? firstMonday : 1; i <= date; i++) {
-          this.displayCalendar(i, date !== allDate[1] || checkFirstMonth === false ? 'fadeMonth' : 'cm');
+          this.displayCalendar(i, date !== allDate[1] || checkFirstMonth === false ? 'fadeMonth' : `cm${this.month}`);
           if (checkFirstMonth === true && i === new Date().getDate() && month === new Date().getMonth()) {
-            document.querySelector(`.cm .day${i}`).style.background = "#00E676";
+            document.querySelector(`.cm${this.month} .day${i}`).style.background = "#00E676";
           }
         }
         checkFirstMonth = true;

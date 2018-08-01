@@ -56,7 +56,7 @@ nextMonth.addEventListener('click', (e) => {
 });
 
 calendarGrid.addEventListener('click', (event) => {
-  if (event.target.className === "calendar-grid-day cm") {
+  if (event.target.className === `calendar-grid-day cm${CalendarUI.month}`) {
     let saveDay = event.target.childNodes[0].innerText;
     calendarDay.year = CalendarUI.year;
     calendarDay.displayCalendar(saveDay, CalendarUI.month);
@@ -77,7 +77,6 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
     if (hour.split("-")[1] === "5") {
       hour = parseFloat(hour) + ":30";
     }
-    console.log(event.target.className.split(" ")[1].split("h")[1]);
     meeting.oneMeetingDay(hour);
   }
   event.preventDefault();
@@ -91,4 +90,27 @@ const addMeeting = document.querySelector('.add-event');
 addMeeting.addEventListener('click', (e) => {
   AddMeetin.isset();
   e.preventDefault();
+});
+
+const info = document.querySelector('.info');
+info.addEventListener('click', (e) => {
+
+  if (e.target.className === 'day-submit') {
+
+    const name = document.querySelector('.day-text').value;
+    const time = document.querySelector('.day-time').value;
+    const number = document.querySelector('.day-number').value;
+    const email = document.querySelector('.day-email').value;
+    let submit = {
+      "start" : 1535839200000,
+      "end" : 1535839200000,
+      "name" : "Meeting",
+      "email" : "dco@gm.com",
+      "description" : "0",
+      "numberOfperson" : 6
+    };
+
+    // get value from UI, send it to API, sanitize it, then fetch data back
+    // Meeting.addMeeting(submit);
+  }
 });

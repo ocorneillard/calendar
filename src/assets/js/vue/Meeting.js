@@ -1,7 +1,7 @@
 export default class Meeting {
 
   displayMeeting(res) {
-    const dayText = document.querySelector(`.cm .day${new Date(res.start).getDate()}`);
+    const dayText = document.querySelector(`.cm${new Date(res.start).getMonth()} .day${new Date(res.start).getDate()}`);
     if (dayText.parentElement.childElementCount < 3) {
       const event = document.createElement('div');
       const timeOfEvent = document.createElement('span');
@@ -40,7 +40,7 @@ export default class Meeting {
       }
       selectUI = `.h${replaceDot}`;
       console.log(selectUI);
-      let selectUI = document.querySelector(selectUI);
+      let selectUI = document.querySelector(selectUI + `.d${new Date(res.start).getDate()}`);
       selectUI.style.background = "rgba(189,189,189, 0.2)";
       selectUI.style.borderLeft = "2rem solid rgba(189,189,189, 0.6)";
       if (firstTime === true) {
@@ -105,9 +105,16 @@ export default class Meeting {
     let cardContent = Meeting.createDiv(undefined, "card__content");
     let cardPrimary = Meeting.createDiv(txt, "card__content-primary");
     let cardSecond = Meeting.createDiv("name : ", "card__content-secondary");
-    let cardSecondInput = document.createElement('input');
-    cardSecondInput.setAttribute('type', 'text');
-    cardSecond.appendChild(cardSecondInput);
+
+    let inputs = ['text', 'time', 'number', "email", "submit"];
+    inputs.forEach( (input) => {
+      let cardSecondInput = document.createElement('input');
+      cardSecondInput.setAttribute('type', input);
+      cardSecondInput.className = "day-" + input;
+      cardSecond.appendChild(cardSecondInput);
+
+    });
+
     cardContent.appendChild(cardPrimary);
     cardContent.appendChild(cardSecond);
     card.appendChild(cardContent);
