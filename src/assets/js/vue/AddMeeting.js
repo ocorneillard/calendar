@@ -1,3 +1,7 @@
+import Storage from "../model/Storage";
+
+let storage = new Storage;
+
 export default class AddMeeting {
   constructor() {
     this.navbar = document.querySelector('.navbar');
@@ -21,5 +25,26 @@ export default class AddMeeting {
     this.navbar.style.height = "4.5rem";
     this.add.style.transform = "rotate(0deg)";
     this.verifyNavbar = false;
+  }
+
+  validate(start, end) {
+    let name = document.querySelector('.day-text').value,
+    number = document.querySelector('.day-number').value,
+    email = document.querySelector('.day-email').value;
+
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    name = name.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
+    number = Number.isInteger(number);
+    re = re.test(String(email).toLowerCase());
+    name = name.trim();
+    let submit = {
+      start,
+      end,
+      "persons" : number,
+      name,
+      email
+    };
+
+    return submit
   }
 }

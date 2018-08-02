@@ -15,6 +15,7 @@ const calendarGrid = document.querySelector('.calendar-grid');
 const prevMonth = document.querySelector('.previous--month');
 const nextMonth = document.querySelector('.next--month');
 const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const back = document.querySelector('.month-back');
 
 days.forEach( (day) => {
   let calendarDay = document.createElement('div');
@@ -62,6 +63,22 @@ calendarGrid.addEventListener('click', (event) => {
     let firstDay = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, 8).getTime();
     let lastDay = new Date(CalendarUI.year, CalendarUI.month, (Number(CalendarUI.saveDay) +1), 22).getTime();
     storage.getMeeting(firstDay, lastDay);
+    back.style.visibility = "visible";
+    back.addEventListener('click', (e) => {
+      // let cal = document.createElement('div');
+      // cal.className = 'calendar-days';
+      // let calG = document.createElement('div');
+      // calG.className = 'calendar-grid';
+      // let main = document.querySelector('main');
+      // main.appendChild(cal);
+      // main.appendChild(calG);
+      // CalendarUI.dayOfCalendar();
+      // let firstDay = new Date(CalendarUI.year, CalendarUI.month, 0).getTime();
+      // let lastDay = new Date(CalendarUI.year, CalendarUI.month+1, 0).getTime();
+      // console.log(back);
+      // storage.getMeeting(firstDay, lastDay);
+      back.style.visibility = "hidden";
+    });
     event.preventDefault();
   }
 
@@ -122,26 +139,7 @@ const info = document.querySelector('.info');
 info.addEventListener('click', (e) => {
 
   if (e.target.className === 'day-submit') {
-    let name = document.querySelector('.day-text').value,
-        number = document.querySelector('.day-number').value,
-        email = document.querySelector('.day-email').value,
-        start = storage.startHour.getTime(),
-        end = storage.endHour.getTime(),
-        submit = {
-          start,
-          end,
-          name,
-          email
-        };
-        console.log(submit);
-
     // get value from UI, send it to API, sanitize it, then fetch data back
-    storage.addMeeting(submit);
+    storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime()));
   }
 });
-
-// let btn = document.querySelector('button');
-// btn.addEventListener('click', (e) => {
-//   btn.className += "validate"; 
-//   e.preventDefault();
-// })

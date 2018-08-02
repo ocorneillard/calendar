@@ -6,7 +6,7 @@
   width: 100%
   display: grid
   justify-items: end
-  grid-template-columns: 30% 50% 10% 10%
+  grid-template-columns: 5% 30% 50% 10% 10%
   background: white
   @include mboxshadow(1)
   z-index: 5
@@ -25,4 +25,23 @@
     transition: all 0.2s cubic-bezier(.25, .8, .25, 1)
     font-size: 1.9rem
   
-.login
+  .month-back
+    border-radius: 3px
+    cursor: pointer
+    visibility: hidden
+
+    &:hover
+      i
+        transform: scale(1.5) translateX(-2px)
+
+    i
+      color: $divider-color
+      transform: scale(1.5)
+      margin-right: 10px
+
+    i:hover
+
+    span
+      color: $secondary-text
+      font-weight: 700
+      font-size: 1.8rem
