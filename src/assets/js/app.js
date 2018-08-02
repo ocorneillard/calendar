@@ -3,7 +3,6 @@ import CalendarDay from './vue/CalendarDay';
 import Storage from './model/Storage';
 import Meeting from './vue/Meeting';
 import AddMeeting from './vue/AddMeeting';
-
 const CalendarUI = new Calendar;
 let calendarDay = new CalendarDay;
 let storage = new Storage;
@@ -73,6 +72,9 @@ calendarGrid.addEventListener('click', (event) => {
 
 calendarDay.CalendarGrid.addEventListener('dblclick', (event) => {
   if (event.target.className.split(" ")[0] === "hour-event" && event.target.style.borderLeftWidth === "") {
+    let background = ['rgba(0,176,255, 0', "rgba(0,230,118, 0", "rgba(255,202,40,0"];
+    let rand = Math.floor((Math.random() * 3));
+    let color = background[rand];
     event.target.style.background = "rgba(0,176,255,0.3)";
     let hour = event.target.className.split(" ")[1].split("h")[1];
     CalendarUI.hour = hour.split('-')[0];
@@ -85,13 +87,15 @@ calendarDay.CalendarGrid.addEventListener('dblclick', (event) => {
     }
     if (storage.startHour !== undefined) {
       storage.endHour = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, CalendarUI.hour, CalendarUI.min);
+      console.log(storage.endHour);
       let res = {
         start : new Date(storage.startHour).getTime(),
         end : new Date(storage.endHour).getTime(),
         name : "New meeting"
       };
-      meeting.displayMeetingHours(res);
-      meeting.oneMeetingDay(hour);
+      console.log(color);
+      meeting.displayMeetingHours(res, color);
+      meeting.oneMeetingDay(res);
 
     } else {
       storage.startHour = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, CalendarUI.hour, CalendarUI.min);
@@ -135,3 +139,9 @@ info.addEventListener('click', (e) => {
     storage.addMeeting(submit);
   }
 });
+
+// let btn = document.querySelector('button');
+// btn.addEventListener('click', (e) => {
+//   btn.className += "validate"; 
+//   e.preventDefault();
+// })

@@ -25,7 +25,7 @@ export default class Meeting {
     }
   }
 
-  displayMeetingHours(res) {
+  displayMeetingHours(res, color) {
     let start = new Date(res.start).getHours();
     let end = new Date(res.end).getHours();
     let minutesStart = new Date(res.start).getMinutes();
@@ -41,14 +41,19 @@ export default class Meeting {
       }
       selectUI = `.h${replaceDot}`;
       let selectUI = document.querySelector(selectUI + `.d${new Date(res.start).getDate()}`);
-      let backgroundRandom = ['rgba(0,176,255, 0.6)', "rgba(0,230,118, 0.6)", "rgba(255,202,40,0.6)"]
-      selectUI.style.background = "rgba(0,176,255,0.3)";
+      selectUI.style.background = color + ".3)";
       selectUI.style.border = "none";
-      selectUI.style.borderLeft = "2rem solid rgba(0,176,255,0.6)";
+      selectUI.style.borderLeft = "2rem solid " + color + ".6)";
       if (firstTime === 1) {
         selectUI.innerText = `${res.name} - 4persons`;
         firstTime++;
       } else if (firstTime === 2) {
+        if (minutesEnd === 30) {
+          minutesEnd = 0;
+          end++;
+        } else {
+          minutesEnd = 30;
+        }
         selectUI.innerText = `${start + ':' + minutesStart}  - ${end + ':' + minutesEnd}`;
         firstTime++;
       }
@@ -84,26 +89,31 @@ export default class Meeting {
     info.appendChild(card);
   }
 
-  oneMeetingDay(hour) {
+  oneMeetingDay(res) {
     const info = document.querySelector(".info");
     if ( info.childNodes.length !== 0) {
       info.innerHTML = '';
     }
-    let txt = "New meeting at " + hour + "h";
+    let txt = "New meeting at " + new Date(res.start).getHours() + "h" + (new Date(res.start).getMinutes() === 0 ? "" : "30");
     let card = Meeting.createDiv(undefined, "card");
     let cardContent = Meeting.createDiv(undefined, "card__content");
+    let cardHeader = Meeting.createDiv(undefined, "card__content-header")
     let cardPrimary = Meeting.createDiv(txt, "card__content-primary");
-    let cardSecond = Meeting.createDiv("name : ", "card__content-secondary");
+    let cardSecond = Meeting.createDiv(undefined, "card__content-secondary");
 
-    let inputs = ['text', 'time', 'number', "email", "submit"];
+    let inputs = ['text', 'number', "email", "submit"];
+    let placeholder = ['Meeting', '6 persons', "john@telenetgroup.be"];
+    let count = 0;
     inputs.forEach( (input) => {
       let cardSecondInput = document.createElement('input');
       cardSecondInput.setAttribute('type', input);
+      cardSecondInput.setAttribute('placeholder', placeholder[count]);
       cardSecondInput.className = "day-" + input;
       cardSecond.appendChild(cardSecondInput);
+      count++;
 
     });
-
+    cardContent.appendChild(cardHeader);
     cardContent.appendChild(cardPrimary);
     cardContent.appendChild(cardSecond);
     card.appendChild(cardContent);

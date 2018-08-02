@@ -6,3 +6,45 @@
 .navbar .add-event:active
   cursor: pointer
   transform: translateY(1px) scale(1.1)
+
+.btn
+  &:link, &:visited
+    border-radius : 2px
+    transition: all 150ms ease
+    font-size: 1.4rem
+
+  &:hover 
+    transform: translateY(-3px)
+    @include mboxshadow(2)
+
+    &::after
+      transform: scaleX(1.4) scaleY(1.5)
+      opacity: 0
+      background: rgba($yellow, 0.5)
+
+  &:active 
+    transform: translateY(-1px)
+    box-shadow: 0 .5rem 1rem rgba(black, .2)
+
+  &--white 
+    background-color: white
+    color : grey
+
+    &::after 
+      background-color: #FFF
+
+  &::after 
+    display: inline-block
+    content: ""
+    height: 100%
+    width: 100%
+    border-radius: 2px
+    position: absolute
+    top: 0
+    left: 0
+    z-index: -1
+    transition: all 350ms ease
+
+  &--animated 
+    animation : 1s moveInBottom ease-out .75s
+    animation-fill-mode: backwards
