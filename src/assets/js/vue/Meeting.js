@@ -28,41 +28,31 @@ export default class Meeting {
   displayMeetingHours(res) {
     let start = new Date(res.start).getHours();
     let end = new Date(res.end).getHours();
-    let minutes = new Date(res.start).getMinutes();
-    end = minutes === 30 ? end + 0.5 : end;
-    let firstTime = true;
+    let minutesStart = new Date(res.start).getMinutes();
+    let minutesEnd = new Date(res.end).getMinutes();
+    let starti = minutesStart === 30 ? start + 0.5 : start;
+    let endi = minutesEnd === 30 ? end + 0.5 : end;
+    let firstTime = 1;
     
-    for (let i = start; i < end; i = i + 0.5) {
+    for (let i = starti; i <= endi; i = i + 0.5) {
       let replaceDot = String(i).replace(/\./g,'-');
       if (i % 2 === 0) {
         selectUI = `.h${i}`;
       }
       selectUI = `.h${replaceDot}`;
       let selectUI = document.querySelector(selectUI + `.d${new Date(res.start).getDate()}`);
-      selectUI.style.background = "rgba(189,189,189, 0.2)";
+      let backgroundRandom = ['rgba(0,176,255, 0.6)', "rgba(0,230,118, 0.6)", "rgba(255,202,40,0.6)"]
+      selectUI.style.background = "rgba(0,176,255,0.3)";
       selectUI.style.border = "none";
-      selectUI.style.borderLeft = "2rem solid rgba(189,189,189, 0.6)";
-      if (firstTime === true) {
+      selectUI.style.borderLeft = "2rem solid rgba(0,176,255,0.6)";
+      if (firstTime === 1) {
         selectUI.innerText = `${res.name} - 4persons`;
-        firstTime = false;
+        firstTime++;
+      } else if (firstTime === 2) {
+        selectUI.innerText = `${start + ':' + minutesStart}  - ${end + ':' + minutesEnd}`;
+        firstTime++;
       }
     }
-  }
-
-  fakeDate() {
-    let sends = [];
-    for (let i = 0; i < 100; i++) {
-      let name = ["Meeting", "reunion", "party", "grouping", "End of week"];
-      let nameRand = Math.floor((Math.random() * 4));
-       name = name[nameRand];
-      let rand = Math.floor((Math.random() * 8000000000) + 1);
-      let rand2 = Math.floor((Math.random() * 36000000) + 1);
-      let start = new Date(2018,6,0).getTime() + rand;
-      let end = new Date().getTime() + rand + rand2;
-      let send = {name, start, end}
-      sends.push(send);
-    }
-    return sends;
   }
 
   month(send, select) {

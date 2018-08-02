@@ -8,7 +8,7 @@ const CalendarUI = new Calendar;
 let calendarDay = new CalendarDay;
 let storage = new Storage;
 let meeting = new Meeting;
-let AddMeetin = new AddMeeting;
+let createMeeting = new AddMeeting;
 
 
 const calendar = document.querySelector('.calendar-days');
@@ -57,11 +57,11 @@ nextMonth.addEventListener('click', (e) => {
 
 calendarGrid.addEventListener('click', (event) => {
   if (event.target.className === `calendar-grid-day cm${CalendarUI.month}`) {
-    let saveDay = event.target.childNodes[0].innerText;
+    CalendarUI.saveDay = event.target.childNodes[0].innerText;
     calendarDay.year = CalendarUI.year;
-    calendarDay.displayCalendar(saveDay, CalendarUI.month);
-    let firstDay = new Date(CalendarUI.year, CalendarUI.month, saveDay, 8).getTime();
-    let lastDay = new Date(CalendarUI.year, CalendarUI.month, (Number(saveDay) +1), 22).getTime();
+    calendarDay.displayCalendar(CalendarUI.saveDay, CalendarUI.month);
+    let firstDay = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, 8).getTime();
+    let lastDay = new Date(CalendarUI.year, CalendarUI.month, (Number(CalendarUI.saveDay) +1), 22).getTime();
     storage.getMeeting(firstDay, lastDay);
     event.preventDefault();
   }
@@ -71,13 +71,31 @@ calendarGrid.addEventListener('click', (event) => {
   // }
 });
 
-calendarDay.CalendarGrid.addEventListener('click', (event) => {
+calendarDay.CalendarGrid.addEventListener('dblclick', (event) => {
   if (event.target.className.split(" ")[0] === "hour-event" && event.target.style.borderLeftWidth === "") {
+    event.target.style.background = "rgba(0,176,255,0.3)";
     let hour = event.target.className.split(" ")[1].split("h")[1];
+    CalendarUI.hour = hour.split('-')[0];
+    console.log(CalendarUI.hour);
     if (hour.split("-")[1] === "5") {
       hour = parseFloat(hour) + ":30";
+      CalendarUI.min = 30;
+    } else {
+      CalendarUI.min = 0;
     }
-    meeting.oneMeetingDay(hour);
+    if (storage.startHour !== undefined) {
+      storage.endHour = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, CalendarUI.hour, CalendarUI.min);
+      let res = {
+        start : new Date(storage.startHour).getTime(),
+        end : new Date(storage.endHour).getTime(),
+        name : "New meeting"
+      };
+      meeting.displayMeetingHours(res);
+      meeting.oneMeetingDay(hour);
+
+    } else {
+      storage.startHour = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, CalendarUI.hour, CalendarUI.min);
+    }
   }
   event.preventDefault();
 });
@@ -88,7 +106,11 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
 
 const addMeeting = document.querySelector('.add-event');
 addMeeting.addEventListener('click', (e) => {
-  AddMeetin.isset();
+  if (createMeeting.verifyNavbar === false) {
+    createMeeting.isset();
+  } else {
+    createMeeting.reduce();
+  }
   e.preventDefault();
 });
 
@@ -99,8 +121,8 @@ info.addEventListener('click', (e) => {
     let name = document.querySelector('.day-text').value,
         number = document.querySelector('.day-number').value,
         email = document.querySelector('.day-email').value,
-        start = 14000000000,
-        end = 1500000000000,
+        start = storage.startHour.getTime(),
+        end = storage.endHour.getTime(),
         submit = {
           start,
           end,

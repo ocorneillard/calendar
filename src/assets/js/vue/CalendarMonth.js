@@ -6,6 +6,7 @@ export default class Calendar {
     this.calendarGrid = document.querySelector('.calendar-grid');
     this.calendarTitle = document.querySelector('h1');
     this.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    this.min = 0;
   }
 
   static getMonday(d) {
