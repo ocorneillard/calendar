@@ -72,7 +72,7 @@ calendarGrid.addEventListener('click', (event) => {
 });
 
 calendarDay.CalendarGrid.addEventListener('click', (event) => {
-  if (event.target.className.split(" ")[0] === "hour-event" && event.target.innerText === "") {
+  if (event.target.className.split(" ")[0] === "hour-event" && event.target.style.borderLeftWidth === "") {
     let hour = event.target.className.split(" ")[1].split("h")[1];
     if (hour.split("-")[1] === "5") {
       hour = parseFloat(hour) + ":30";

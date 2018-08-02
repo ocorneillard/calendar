@@ -40,6 +40,7 @@ export default class Meeting {
       selectUI = `.h${replaceDot}`;
       let selectUI = document.querySelector(selectUI + `.d${new Date(res.start).getDate()}`);
       selectUI.style.background = "rgba(189,189,189, 0.2)";
+      selectUI.style.border = "none";
       selectUI.style.borderLeft = "2rem solid rgba(189,189,189, 0.6)";
       if (firstTime === true) {
         selectUI.innerText = `${res.name} - 4persons`;
