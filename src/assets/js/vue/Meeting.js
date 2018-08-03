@@ -94,7 +94,7 @@ export default class Meeting {
     if ( info.childNodes.length !== 0) {
       info.innerHTML = '';
     }
-    let txt = "New meeting at " + new Date(res.start).getHours() + "h" + (new Date(res.start).getMinutes() === 0 ? "" : "30");
+    let txt = "New meeting from " + new Date(res.start).getHours() + (new Date(res.start).getMinutes() === 0 ? " to " : ":30 to ") + new Date(res.end).getHours() + (new Date(res.end).getMinutes() === 0 ? "" : ":30");
     let card = Meeting.createDiv(undefined, "card");
     let cardContent = Meeting.createDiv(undefined, "card__content");
     let cardHeader = Meeting.createDiv(undefined, "card__content-header")
@@ -118,7 +118,6 @@ export default class Meeting {
     cardContent.appendChild(cardSecond);
     card.appendChild(cardContent);
     info.appendChild(card);
-
   }
 
 

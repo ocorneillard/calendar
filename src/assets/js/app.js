@@ -92,6 +92,7 @@ calendarGrid.addEventListener('click', (event) => {
       let main = document.querySelector('main');
       let calendarMonth = document.createElement('div');
       calendarMonth.className = "calendar-grid";
+      calendarDay.CalendarGrid.innerHTML = "";
       main.appendChild(calendar);
       main.appendChild(CalendarUI.calendarGrid);
       CalendarUI.titleMonth();
@@ -105,7 +106,7 @@ calendarGrid.addEventListener('click', (event) => {
 });
 
 // UI selector for hours => from - to, then call storage to create the event
-calendarDay.CalendarGrid.addEventListener('dblclick', (event) => {
+calendarDay.CalendarGrid.addEventListener('click', (event) => {
   // Check the hours, translate it for the API
   if (event.target.className.split(" ")[0] === "hour-event" && event.target.style.borderLeftWidth === "") {
     let background = ['rgba(0,176,255, 0', "rgba(0,230,118, 0", "rgba(255,202,40,0"];
@@ -114,31 +115,42 @@ calendarDay.CalendarGrid.addEventListener('dblclick', (event) => {
     event.target.style.background = "rgba(0,176,255,0.3)";
     let hour = event.target.className.split(" ")[1].split("h")[1];
     CalendarUI.hour = hour.split('-')[0];
-    console.log(CalendarUI.hour);
     if (hour.split("-")[1] === "5") {
       hour = parseFloat(hour) + ":30";
       CalendarUI.min = 30;
     } else {
       CalendarUI.min = 0;
     }
+
+    const hourEvent = document.querySelector('.calendar-grid-hours');
+
     if (storage.startHour !== undefined) {
+      clearSelection();
+      let spanFrom = document.createElement('span');
+      spanFrom.style.float = "left";
+      event.target.appendChild(spanFrom);
       storage.endHour = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, CalendarUI.hour, CalendarUI.min);
-      console.log(storage.endHour);
       let res = {
         start : new Date(storage.startHour).getTime(),
         end : new Date(storage.endHour).getTime(),
         name : "New meeting"
       };
-      console.log(color);
       meeting.displayMeetingHours(res, color);
       meeting.oneMeetingDay(res);
-
+      createMeeting.isset();
     } else {
+      clearSelection();
+      let spanFrom = document.createElement('span');
+      spanFrom.style.float = "left";
+      spanFrom.innerText = "from";
+      event.target.appendChild(spanFrom);
       storage.startHour = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, CalendarUI.hour, CalendarUI.min);
     }
   }
   event.preventDefault();
 });
+
+
 
 
 info.addEventListener('click', (e) => {
@@ -168,3 +180,12 @@ addMeeting.addEventListener('click', (e) => {
  * Sometimes, data doesn't fetch directly => error 500, even if the code of API seems correct => Mainly due to webpack I think
  * When on week calendar, if you change month, it brings you back on an incorrect month.
  */
+
+function clearSelection() {
+  if(document.selection && document.selection.empty) {
+      document.selection.empty();
+  } else if(window.getSelection) {
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+  }
+}
