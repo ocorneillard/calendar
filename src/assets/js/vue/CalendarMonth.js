@@ -4,9 +4,12 @@ export default class Calendar {
     this.month = month=== undefined ? new Date().getMonth() : month;
     this.year = year=== undefined ? new Date().getFullYear() : year;
     this.calendarGrid = document.querySelector('.calendar-grid');
+    // this.calendarGrid = document.createElement('div');
+    // this.calendarGrid.className = "calendar-grid";
     this.calendarTitle = document.querySelector('h1');
     this.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.min = 0;
+    this.main = document.querySelector('main');
   }
 
   static getMonday(d) {
@@ -22,7 +25,6 @@ export default class Calendar {
     let firstDate= new Date(year, month, 0),
     lastDate= new Date(year, month+1, 0),
     firstMonday = Calendar.getMonday(firstDate).getDate();
-
     const firstDateOfMonth = firstDate.getDate();
     const endOfPrevMonth = lastDate.getDate();
     const endOfCurrentMonth = 7 - lastDate.getDay();
@@ -49,6 +51,7 @@ export default class Calendar {
     dayText.className = `daytext day${day}`;
     dayText.innerText = day;
     createDay.appendChild(dayText);
+    
     this.calendarGrid.appendChild(createDay);
   }
 

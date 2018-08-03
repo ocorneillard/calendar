@@ -3,36 +3,52 @@ import CalendarDay from './vue/CalendarDay';
 import Storage from './model/Storage';
 import Meeting from './vue/Meeting';
 import AddMeeting from './vue/AddMeeting';
+
+// Init class 
+/**
+ * CalendarUI => main calendar
+ * CalendarDay => weekly
+ * Storage => fetch data from API
+ * CreateMeeting & Meeting => Display data and add them
+ */
 const CalendarUI = new Calendar;
 let calendarDay = new CalendarDay;
 let storage = new Storage;
 let meeting = new Meeting;
 let createMeeting = new AddMeeting;
 
-
+// display day for the main calendar + CalendarGrid => main calendar
+const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 const calendar = document.querySelector('.calendar-days');
 const calendarGrid = document.querySelector('.calendar-grid');
-const prevMonth = document.querySelector('.previous--month');
-const nextMonth = document.querySelector('.next--month');
-const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-const back = document.querySelector('.month-back');
-
 days.forEach( (day) => {
   let calendarDay = document.createElement('div');
   calendarDay.className = "calendar-day";
   calendarDay.innerText = day;
   calendar.appendChild(calendarDay);
 });
+
+// create and fetch event for the main calendar
 CalendarUI.dayOfCalendar();
 let firstDay = new Date(CalendarUI.year, CalendarUI.month, 0).getTime();
 let lastDay = new Date(CalendarUI.year, CalendarUI.month+1, 0).getTime();
 storage.getMeeting(firstDay, lastDay);
 
 
-prevMonth.addEventListener('click', (e) => {
+// header 
+// info => card to submit data, and to read content of meeting
+const prevMonth = document.querySelector('.previous--month');
+const nextMonth = document.querySelector('.next--month');
+const back = document.querySelector('.month-back');
+const info = document.querySelector('.info');
 
+prevMonth.addEventListener('click', (e) => {
+  // calendarDay.isset => is it monthly or weekly ? true if weekly, false if monthly.
   if( calendarDay.isset === true ) {
     calendarDay.prevDay();
+    let firstDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day, 8).getTime();
+    let lastDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day + 1, 22).getTime();
+    storage.getMeeting(firstDay, lastDay);
   } else {
     CalendarUI.prevMonth();
     let firstDay = new Date(CalendarUI.year, CalendarUI.month, 0).getTime();
@@ -46,6 +62,10 @@ nextMonth.addEventListener('click', (e) => {
 
   if( calendarDay.isset === true ) {
     calendarDay.nextDay();
+    console.log(calendarDay.day);
+    let firstDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day, 8).getTime();
+    let lastDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day + 1, 22).getTime();
+    storage.getMeeting(firstDay, lastDay);
   } else {
     CalendarUI.nextMonth();
     let firstDay = new Date(CalendarUI.year, CalendarUI.month, 0).getTime();
@@ -55,6 +75,8 @@ nextMonth.addEventListener('click', (e) => {
   e.preventDefault();
 });
 
+
+// display weekly calendar 
 calendarGrid.addEventListener('click', (event) => {
   if (event.target.className === `calendar-grid-day cm${CalendarUI.month}`) {
     CalendarUI.saveDay = event.target.childNodes[0].innerText;
@@ -65,29 +87,26 @@ calendarGrid.addEventListener('click', (event) => {
     storage.getMeeting(firstDay, lastDay);
     back.style.visibility = "visible";
     back.addEventListener('click', (e) => {
-      // let cal = document.createElement('div');
-      // cal.className = 'calendar-days';
-      // let calG = document.createElement('div');
-      // calG.className = 'calendar-grid';
-      // let main = document.querySelector('main');
-      // main.appendChild(cal);
-      // main.appendChild(calG);
-      // CalendarUI.dayOfCalendar();
-      // let firstDay = new Date(CalendarUI.year, CalendarUI.month, 0).getTime();
-      // let lastDay = new Date(CalendarUI.year, CalendarUI.month+1, 0).getTime();
-      // console.log(back);
-      // storage.getMeeting(firstDay, lastDay);
+
+      // Reset, take the property in CalendarMonth
+      let main = document.querySelector('main');
+      let calendarMonth = document.createElement('div');
+      calendarMonth.className = "calendar-grid";
+      main.appendChild(calendar);
+      main.appendChild(CalendarUI.calendarGrid);
+      CalendarUI.titleMonth();
+      calendarDay.isset = false;
+      calendarDay.CalendarGrid.remove();
+
       back.style.visibility = "hidden";
     });
     event.preventDefault();
   }
-
-  // if (event.target.className === "event" ) {
-  //   meeting.oneMeeting();
-  // }
 });
 
+// UI selector for hours => from - to, then call storage to create the event
 calendarDay.CalendarGrid.addEventListener('dblclick', (event) => {
+  // Check the hours, translate it for the API
   if (event.target.className.split(" ")[0] === "hour-event" && event.target.style.borderLeftWidth === "") {
     let background = ['rgba(0,176,255, 0', "rgba(0,230,118, 0", "rgba(255,202,40,0"];
     let rand = Math.floor((Math.random() * 3));
@@ -122,9 +141,20 @@ calendarDay.CalendarGrid.addEventListener('dblclick', (event) => {
 });
 
 
-// Ability to search for a date.
-// 
+info.addEventListener('click', (e) => {
 
+  if (e.target.className === 'day-submit') {
+    // get value from UI, send it to API, sanitize it, then fetch data back
+    storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime()));
+  }
+});
+
+/**
+ * Working on it :
+ * 1) possibility to add event directly from main calendar
+ * 2) Possibility to make a research for a date
+ * 3) Propose an other date if already taken
+ */
 const addMeeting = document.querySelector('.add-event');
 addMeeting.addEventListener('click', (e) => {
   if (createMeeting.verifyNavbar === false) {
@@ -134,12 +164,7 @@ addMeeting.addEventListener('click', (e) => {
   }
   e.preventDefault();
 });
-
-const info = document.querySelector('.info');
-info.addEventListener('click', (e) => {
-
-  if (e.target.className === 'day-submit') {
-    // get value from UI, send it to API, sanitize it, then fetch data back
-    storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime()));
-  }
-});
+/**
+ * Sometimes, data doesn't fetch directly => error 500, even if the code of API seems correct => Mainly due to webpack I think
+ * When on week calendar, if you change month, it brings you back on an incorrect month.
+ */
