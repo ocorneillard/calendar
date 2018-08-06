@@ -16,6 +16,7 @@ let calendarDay = new CalendarDay;
 let storage = new Storage;
 let meeting = new Meeting;
 let createMeeting = new AddMeeting;
+let check = 1;
 
 // display day for the main calendar + CalendarGrid => main calendar
 const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
@@ -62,7 +63,6 @@ nextMonth.addEventListener('click', (e) => {
 
   if( calendarDay.isset === true ) {
     calendarDay.nextDay();
-    console.log(calendarDay.day);
     let firstDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day, 8).getTime();
     let lastDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day + 1, 22).getTime();
     storage.getMeeting(firstDay, lastDay);
@@ -124,14 +124,10 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
     } else {
       CalendarUI.min = 0;
     }
-
     const hourEvent = document.querySelector('.calendar-grid-hours');
 
-    if (storage.startHour !== undefined) {
+    if (storage.startHour !== undefined && check === 2) {
       clearSelection();
-      let spanFrom = document.createElement('span');
-      spanFrom.style.float = "left";
-      event.target.appendChild(spanFrom);
       storage.endHour = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, CalendarUI.hour, CalendarUI.min);
       let res = {
         start : new Date(storage.startHour).getTime(),
@@ -140,7 +136,7 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
       };
       meeting.displayMeetingHours(res, color);
       meeting.oneMeetingDay(res);
-      storage.startHour = undefined;
+      check = 1;
       createMeeting.isset();
     } else {
       clearSelection();
@@ -149,6 +145,7 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
       spanFrom.innerText = "from";
       event.target.appendChild(spanFrom);
       storage.startHour = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, CalendarUI.hour, CalendarUI.min);
+      check++;
     }
   }
   event.preventDefault();

@@ -100,7 +100,6 @@ export default class Meeting {
     let txt = "New meeting from : ";
     let card = Meeting.createDiv(undefined, "card");
     let cardContent = Meeting.createDiv(undefined, "card__content");
-    let cardHeader = Meeting.createDiv(undefined, "card__content-header")
     let cardPrimary = Meeting.createDiv(txt, "card__content-primary");
     let cardSecond = Meeting.createDiv(undefined, "card__content-secondary");
 
@@ -112,13 +111,15 @@ export default class Meeting {
       cardSecondInput.setAttribute('type', input);
       cardSecondInput.setAttribute('placeholder', placeholder[count]);
       cardSecondInput.className = "day-" + input;
+      if (input === "submit") {
+        cardSecondInput.value = "Send";
+      }
       cardSecond.appendChild(cardSecondInput);
       count++;
 
     });
     cardPrimary.appendChild(this.createInputHours(new Date(res.start).getHours(), new Date(res.start).getMinutes()));
     cardPrimary.appendChild(this.createInputHours("10", "30", true));
-    cardContent.appendChild(cardHeader);
     cardContent.appendChild(cardPrimary);
     cardContent.appendChild(cardSecond);
     card.appendChild(cardContent);

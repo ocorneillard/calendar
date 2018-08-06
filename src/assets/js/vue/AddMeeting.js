@@ -15,7 +15,7 @@ export default class AddMeeting {
   }
 
   isset() {
-    this.navbar.style.height = "10rem";
+    this.navbar.style.height = "15rem";
     this.add.style.transform = "rotate(45deg)";
     this.verifyNavbar = true;
   }
