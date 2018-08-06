@@ -26,6 +26,7 @@ export default class Meeting {
   }
 
   displayMeetingHours(res, color) {
+    let selectUI;
     let start = new Date(res.start).getHours();
     let end = new Date(res.end).getHours();
     let minutesStart = new Date(res.start).getMinutes();
@@ -40,7 +41,9 @@ export default class Meeting {
         selectUI = `.h${i}`;
       }
       selectUI = `.h${replaceDot}`;
-      let selectUI = document.querySelector(selectUI + `.d${new Date(res.start).getDate()}`);
+      // console.log(selectUI);
+      // console.log(res);
+      selectUI = document.querySelector(selectUI + `.d${new Date(res.start).getDate()}`);
       selectUI.style.background = color + ".3)";
       selectUI.style.border = "none";
       selectUI.style.borderLeft = "2rem solid " + color + ".6)";
@@ -89,12 +92,12 @@ export default class Meeting {
     info.appendChild(card);
   }
 
-  oneMeetingDay(res) {
+  oneMeetingDay(res = undefined) {
     const info = document.querySelector(".info");
     if ( info.childNodes.length !== 0) {
       info.innerHTML = '';
     }
-    let txt = "New meeting from " + new Date(res.start).getHours() + (new Date(res.start).getMinutes() === 0 ? " to " : ":30 to ") + new Date(res.end).getHours() + (new Date(res.end).getMinutes() === 0 ? "" : ":30");
+    let txt = "New meeting from : ";
     let card = Meeting.createDiv(undefined, "card");
     let cardContent = Meeting.createDiv(undefined, "card__content");
     let cardHeader = Meeting.createDiv(undefined, "card__content-header")
@@ -113,6 +116,8 @@ export default class Meeting {
       count++;
 
     });
+    cardPrimary.appendChild(this.createInputHours(new Date(res.start).getHours(), new Date(res.start).getMinutes()));
+    cardPrimary.appendChild(this.createInputHours("10", "30", true));
     cardContent.appendChild(cardHeader);
     cardContent.appendChild(cardPrimary);
     cardContent.appendChild(cardSecond);
@@ -128,4 +133,38 @@ export default class Meeting {
     return appendRight;
   }
   
+  createInputHours(h, min, bool = false) {
+  function populateHours() {
+    for(var i = 8; i <= 22; i++) {
+      var option = document.createElement('option');
+      option.textContent = i + "h";
+      hourSelect.appendChild(option);
+    }
+  }
+
+  function populateMinutes() {
+    for(var i = 0; i <= 59; i = i + 30) {
+      var option = document.createElement('option');
+      option.textContent = (i < 10) ? ("0" + i) : i;
+      minuteSelect.appendChild(option);
+    }
+  }
+
+  let time = document.createElement('span');
+  if (bool === true) {
+    time.innerText = ' to : ';
+  }
+  let hourSelect = document.createElement('select');
+  let minuteSelect = document.createElement('select');
+  time.className = "time__input";
+
+  populateHours();
+  populateMinutes();
+  time.appendChild(hourSelect);
+  time.appendChild(minuteSelect);
+
+  hourSelect.value = (h === undefined ? 8 : h) + "h";
+  minuteSelect.value = (min === undefined ? 0 : min);
+  return time;
+  }
 }

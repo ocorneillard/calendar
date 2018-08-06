@@ -98,6 +98,9 @@ calendarGrid.addEventListener('click', (event) => {
       CalendarUI.titleMonth();
       calendarDay.isset = false;
       calendarDay.CalendarGrid.remove();
+      if (createMeeting.verifyNavbar === true) {
+        createMeeting.reduce();
+      }
 
       back.style.visibility = "hidden";
     });
@@ -137,6 +140,7 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
       };
       meeting.displayMeetingHours(res, color);
       meeting.oneMeetingDay(res);
+      storage.startHour = undefined;
       createMeeting.isset();
     } else {
       clearSelection();
@@ -171,6 +175,7 @@ const addMeeting = document.querySelector('.add-event');
 addMeeting.addEventListener('click', (e) => {
   if (createMeeting.verifyNavbar === false) {
     createMeeting.isset();
+    meeting.oneMeetingDay({"start": 0, "end" : 0});
   } else {
     createMeeting.reduce();
   }

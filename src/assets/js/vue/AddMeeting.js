@@ -1,6 +1,6 @@
-import Storage from "../model/Storage";
+// import Storage from "../model/Storage";
 
-let storage = new Storage;
+// let storage = new Storage;
 
 export default class AddMeeting {
   constructor() {
@@ -10,7 +10,6 @@ export default class AddMeeting {
     this.login = document.querySelector('.login');
     this.log = document.querySelector('.login-login');
     this.sign = document.querySelector('.login-signup');
-    this.form = document.querySelector('form');
     this.add = document.querySelector('.add-event');
     this.verifyNavbar = false;
   }
@@ -22,9 +21,11 @@ export default class AddMeeting {
   }
 
   reduce() {
+    this.form = document.querySelector('.card');
     this.navbar.style.height = "4.5rem";
     this.add.style.transform = "rotate(0deg)";
     this.verifyNavbar = false;
+    this.form.remove();
   }
 
   validate(start, end) {
