@@ -30,18 +30,26 @@ export default class AddMeeting {
 
   validate(start, end) {
     let name = document.querySelector('.day-text').value,
-    number = document.querySelector('.day-number').value,
-    email = document.querySelector('.day-email').value;
+    // number = document.querySelector('.day-number').value,
+    email = document.querySelector('.day-email').value,
+    desc = document.querySelector('textarea').value,
+    timeInput = document.querySelectorAll('select');
+    let value = [];
+    timeInput.forEach( (select) => {
+      value.push(select.value.replace('h', ''));
+    });
+    console.log(new Date(start));
+    console.log(value);
+    // console.log(number);
 
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     name = name.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
-    number = Number.isInteger(number);
+    // number = Number.isInteger(number);
     re = re.test(String(email).toLowerCase());
     name = name.trim();
     let submit = {
       start,
       end,
-      "persons" : number,
       name,
       email
     };

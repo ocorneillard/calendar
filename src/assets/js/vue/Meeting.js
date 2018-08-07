@@ -94,15 +94,17 @@ export default class Meeting {
     if ( info.childNodes.length !== 0) {
       info.innerHTML = '';
     }
-    let txt = "New meeting from : ";
+    let txt = "New meeting from ";
     let card = Meeting.createDiv(undefined, "card");
     let cardContent = Meeting.createDiv(undefined, "card__content");
     let cardPrimary = Meeting.createDiv(txt, "card__content-primary");
     let cardSecond = Meeting.createDiv(undefined, "card__content-secondary");
     let createSubDes = Meeting.createDiv(undefined, "secondary-subdesc");
     let createInput = Meeting.createDiv(undefined, 'secondary-input');
-    let inputs = ['text', 'number', "email"];
-    let placeholder = ['Meeting', '6 persons', "john@telenetgroup.be"];
+    let inputs = ['text', "email"];
+    // 'number',
+    let placeholder = ['Meeting', "john@telenetgroup.be"];
+    // , '6 persons'
     let count = 0;
     inputs.forEach( (input) => {
       let cardSecondInput = document.createElement('input');
@@ -161,7 +163,7 @@ export default class Meeting {
 
   let time = document.createElement('span');
   if (bool === true) {
-    time.innerText = ' to : ';
+    time.innerText = ' to ';
   }
   let hourSelect = document.createElement('select');
   let minuteSelect = document.createElement('select');
