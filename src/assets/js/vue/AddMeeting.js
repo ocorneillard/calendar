@@ -46,6 +46,6 @@ export default class AddMeeting {
       email
     };
 
-    return submit
+    return submit;
   }
 }

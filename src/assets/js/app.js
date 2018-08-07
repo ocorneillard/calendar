@@ -47,8 +47,8 @@ prevMonth.addEventListener('click', (e) => {
   // calendarDay.isset => is it monthly or weekly ? true if weekly, false if monthly.
   if( calendarDay.isset === true ) {
     calendarDay.prevDay();
-    let firstDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day, 8).getTime();
-    let lastDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day, 22).getTime();
+    let firstDay = new Date(CalendarUI.year, calendarDay.month, calendarDay.day, 8).getTime();
+    let lastDay = new Date(CalendarUI.year, calendarDay.month, calendarDay.day, 22).getTime();
     storage.getMeeting(firstDay, lastDay);
   } else {
     CalendarUI.prevMonth();
@@ -63,8 +63,8 @@ nextMonth.addEventListener('click', (e) => {
 
   if( calendarDay.isset === true ) {
     calendarDay.nextDay();
-    let firstDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day, 8).getTime();
-    let lastDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day, 22).getTime();
+    let firstDay = new Date(CalendarUI.year, calendarDay.month, calendarDay.day, 8).getTime();
+    let lastDay = new Date(CalendarUI.year, calendarDay.month, calendarDay.day, 22).getTime();
     storage.getMeeting(firstDay, lastDay);
   } else {
     CalendarUI.nextMonth();
@@ -79,33 +79,16 @@ nextMonth.addEventListener('click', (e) => {
 // display weekly calendar 
 calendarGrid.addEventListener('click', (event) => {
   if (event.target.className === `calendar-grid-day cm${CalendarUI.month}`) {
-    CalendarUI.saveDay = event.target.childNodes[0].innerText;
-    calendarDay.year = CalendarUI.year;
-    calendarDay.displayCalendar(CalendarUI.saveDay, CalendarUI.month);
-    let firstDay = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, 8).getTime();
-    let lastDay = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, 22).getTime();
-    storage.getMeeting(firstDay, lastDay);
-    back.style.visibility = "visible";
-    back.addEventListener('click', (e) => {
-
-      // Reset, take the property in CalendarMonth
-      let main = document.querySelector('main');
-      let calendarMonth = document.createElement('div');
-      calendarMonth.className = "calendar-grid";
-      calendarDay.CalendarGrid.innerHTML = "";
-      main.appendChild(calendar);
-      main.appendChild(CalendarUI.calendarGrid);
-      CalendarUI.titleMonth();
-      calendarDay.isset = false;
-      calendarDay.CalendarGrid.remove();
-      if (createMeeting.verifyNavbar === true) {
-        createMeeting.reduce();
-      }
-
-      back.style.visibility = "hidden";
-    });
-    event.preventDefault();
+    displayDay(event.target.childNodes[0].innerText);
   }
+  if (event.target.className === 'event') {
+    displayDay(event.target.parentNode.childNodes[0].innerText)
+  }
+
+  if (event.target.className === 'time') {
+    displayDay(event.target.parentNode.parentNode.childNodes[0].innerText);
+  }
+  event.preventDefault();
 });
 
 // UI selector for hours => from - to, then call storage to create the event
@@ -190,4 +173,33 @@ function clearSelection() {
       var sel = window.getSelection();
       sel.removeAllRanges();
   }
+}
+
+function displayDay(saveDay) {
+
+  CalendarUI.saveDay = saveDay;
+  calendarDay.year = CalendarUI.year;
+  calendarDay.displayCalendar(CalendarUI.saveDay, CalendarUI.month);
+  let firstDay = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, 8).getTime();
+  let lastDay = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, 22).getTime();
+  storage.getMeeting(firstDay, lastDay);
+  back.style.visibility = "visible";
+  back.addEventListener('click', (e) => {
+
+    // Reset, take the property in CalendarMonth
+    let main = document.querySelector('main');
+    let calendarMonth = document.createElement('div');
+    calendarMonth.className = "calendar-grid";
+    calendarDay.CalendarGrid.innerHTML = "";
+    main.appendChild(calendar);
+    main.appendChild(CalendarUI.calendarGrid);
+    CalendarUI.titleMonth();
+    calendarDay.isset = false;
+    calendarDay.CalendarGrid.remove();
+    if (createMeeting.verifyNavbar === true) {
+      createMeeting.reduce();
+    }
+
+    back.style.visibility = "hidden";
+  });
 }
