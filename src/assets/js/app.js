@@ -52,8 +52,8 @@ prevMonth.addEventListener('click', (e) => {
     storage.getMeeting(firstDay, lastDay);
   } else {
     CalendarUI.prevMonth();
-    let firstDay = new Date(CalendarUI.year, CalendarUI.month, 0).getTime();
-    let lastDay = new Date(CalendarUI.year, CalendarUI.month+1, 0).getTime();
+    let firstDay = new Date(CalendarUI.year, CalendarUI.month, 0, 8).getTime();
+    let lastDay = new Date(CalendarUI.year, CalendarUI.month+1, 0, 23).getTime();
     storage.getMeeting(firstDay, lastDay);
   }
   e.preventDefault();
@@ -68,8 +68,8 @@ nextMonth.addEventListener('click', (e) => {
     storage.getMeeting(firstDay, lastDay);
   } else {
     CalendarUI.nextMonth();
-    let firstDay = new Date(CalendarUI.year, CalendarUI.month, 0).getTime();
-    let lastDay = new Date(CalendarUI.year, CalendarUI.month+1, 0).getTime();
+    let firstDay = new Date(CalendarUI.year, CalendarUI.month, 1, 8).getTime();
+    let lastDay = new Date(CalendarUI.year, CalendarUI.month+1, 0, 23).getTime();
     storage.getMeeting(firstDay, lastDay);
   }
   e.preventDefault();

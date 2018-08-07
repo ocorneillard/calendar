@@ -41,8 +41,6 @@ export default class Meeting {
         selectUI = `.h${i}`;
       }
       selectUI = `.h${replaceDot}`;
-      // console.log(selectUI);
-      // console.log(res);
       selectUI = document.querySelector(selectUI + `.d${new Date(res.start).getDate()}`);
       selectUI.style.background = color + ".3)";
       selectUI.style.border = "none";
@@ -102,8 +100,9 @@ export default class Meeting {
     let cardContent = Meeting.createDiv(undefined, "card__content");
     let cardPrimary = Meeting.createDiv(txt, "card__content-primary");
     let cardSecond = Meeting.createDiv(undefined, "card__content-secondary");
-
-    let inputs = ['text', 'number', "email", "submit"];
+    let createSubDes = Meeting.createDiv(undefined, "secondary-subdesc");
+    let createInput = Meeting.createDiv(undefined, 'secondary-input');
+    let inputs = ['text', 'number', "email"];
     let placeholder = ['Meeting', '6 persons', "john@telenetgroup.be"];
     let count = 0;
     inputs.forEach( (input) => {
@@ -111,15 +110,24 @@ export default class Meeting {
       cardSecondInput.setAttribute('type', input);
       cardSecondInput.setAttribute('placeholder', placeholder[count]);
       cardSecondInput.className = "day-" + input;
-      if (input === "submit") {
-        cardSecondInput.value = "Send";
-      }
-      cardSecond.appendChild(cardSecondInput);
+      createInput.appendChild(cardSecondInput)
+      cardSecond.appendChild(createInput);
       count++;
-
     });
+
+    let sub = document.createElement('input');
+    let desc = document.createElement('textarea');
+    sub.setAttribute('type', 'submit');
+    sub.className = "day-submit";
+    sub.value = 'send';
+    createSubDes.appendChild(desc);
+    createSubDes.appendChild(sub);
+
+
+
     cardPrimary.appendChild(this.createInputHours(new Date(res.start).getHours(), new Date(res.start).getMinutes()));
-    cardPrimary.appendChild(this.createInputHours("10", "30", true));
+    cardPrimary.appendChild(this.createInputHours(new Date(res.end).getHours(), new Date(res.end).getMinutes(), true));
+    cardSecond.appendChild(createSubDes);
     cardContent.appendChild(cardPrimary);
     cardContent.appendChild(cardSecond);
     card.appendChild(cardContent);
@@ -135,7 +143,7 @@ export default class Meeting {
   }
   
   createInputHours(h, min, bool = false) {
-  function populateHours() {
+  function populateHours(b) {
     for(var i = 8; i <= 22; i++) {
       var option = document.createElement('option');
       option.textContent = i + "h";
@@ -143,7 +151,7 @@ export default class Meeting {
     }
   }
 
-  function populateMinutes() {
+  function populateMinutes(b) {
     for(var i = 0; i <= 59; i = i + 30) {
       var option = document.createElement('option');
       option.textContent = (i < 10) ? ("0" + i) : i;
@@ -159,13 +167,12 @@ export default class Meeting {
   let minuteSelect = document.createElement('select');
   time.className = "time__input";
 
-  populateHours();
-  populateMinutes();
+  populateHours(bool);
+  populateMinutes(bool);
   time.appendChild(hourSelect);
   time.appendChild(minuteSelect);
-
-  hourSelect.value = (h === undefined ? 8 : h) + "h";
-  minuteSelect.value = (min === undefined ? 0 : min);
+  hourSelect.value = (h === undefined ? "8h" : (h === 1 ? 8 : h) + "h");
+  minuteSelect.value = (min === undefined ? "00" : (min === 0 ? "00" : "30"));
   return time;
   }
 }

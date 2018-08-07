@@ -92,7 +92,6 @@ export default class CalendarDay {
       }
       let save = new Date(this.year, this.month + 1, 0);
       this.day = save.getDate();
-      console.log(this.day);
     } else {
       this.day--;
     }
