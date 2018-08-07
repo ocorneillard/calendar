@@ -48,4 +48,16 @@ export default class AddMeeting {
 
     return submit;
   }
+
+  verifyUI(firstClick, lastClick) {
+    firstClick = firstClick.split(' ')[1].replace('h', '').replace('-', '.');
+    lastClick = lastClick.split(' ')[1].replace('h', '').replace('-', '.');
+    for (let i = Number(firstClick); i <= Number(lastClick); i = i + 0.5) {
+      let replaceDot = String(i).replace(/\./g,'-');
+      let select = document.querySelector(`.h${replaceDot}`);
+      if (select.style.borderLeftWidth === "2rem") {
+        return false;
+      }
+    }
+  }
 }

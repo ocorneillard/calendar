@@ -17,6 +17,7 @@ let storage = new Storage;
 let meeting = new Meeting;
 let createMeeting = new AddMeeting;
 let check = 1;
+let firstClick;
 
 // display day for the main calendar + CalendarGrid => main calendar
 const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
@@ -110,22 +111,30 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
     
     if (storage.startHour !== undefined && check === 2) {
       clearSelection();
-      storage.endHour = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, CalendarUI.hour, CalendarUI.min);
-      let res = {
-        start : new Date(storage.startHour).getTime(),
-        end : new Date(storage.endHour).getTime(),
-        name : "New meeting"
-      };
-      meeting.displayMeetingHours(res, color);
-      res.end = res.end + 1800000;
-      meeting.oneMeetingDay(res);
-      check = 1;
-      createMeeting.isset();
+      let lastClick = event.target;
+      if (createMeeting.verifyUI(firstClick.className, lastClick.className) === false) {
+        console.log('already taken !');
+        check = 1;
+        firstClick.style.background = "white";
+        lastClick.style.background = "white";
+      } else {
+        storage.endHour = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, CalendarUI.hour, CalendarUI.min);
+        let res = {
+          start : new Date(storage.startHour).getTime(),
+          end : new Date(storage.endHour).getTime(),
+          name : "New meeting"
+        };
+        meeting.displayMeetingHours(res, color);
+        res.end = res.end + 1800000;
+        meeting.oneMeetingDay(res);
+        check = 1;
+        createMeeting.isset();
+      }
     } else {
       clearSelection();
       let spanFrom = document.createElement('span');
       spanFrom.style.float = "left";
-      spanFrom.innerText = "from";
+      firstClick = event.target;
       event.target.appendChild(spanFrom);
       storage.startHour = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, CalendarUI.hour, CalendarUI.min);
       check++;
