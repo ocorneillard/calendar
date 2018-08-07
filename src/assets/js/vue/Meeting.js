@@ -34,7 +34,6 @@ export default class Meeting {
     let starti = minutesStart === 30 ? start + 0.5 : start;
     let endi = minutesEnd === 30 ? end + 0.5 : end;
     let firstTime = 1;
-    
     for (let i = starti; i <= endi; i = i + 0.5) {
       let replaceDot = String(i).replace(/\./g,'-');
       if (i % 2 === 0) {

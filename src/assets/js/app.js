@@ -48,7 +48,7 @@ prevMonth.addEventListener('click', (e) => {
   if( calendarDay.isset === true ) {
     calendarDay.prevDay();
     let firstDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day, 8).getTime();
-    let lastDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day + 1, 22).getTime();
+    let lastDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day, 22).getTime();
     storage.getMeeting(firstDay, lastDay);
   } else {
     CalendarUI.prevMonth();
@@ -64,7 +64,7 @@ nextMonth.addEventListener('click', (e) => {
   if( calendarDay.isset === true ) {
     calendarDay.nextDay();
     let firstDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day, 8).getTime();
-    let lastDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day + 1, 22).getTime();
+    let lastDay = new Date(CalendarUI.year, CalendarUI.month, calendarDay.day, 22).getTime();
     storage.getMeeting(firstDay, lastDay);
   } else {
     CalendarUI.nextMonth();
@@ -83,7 +83,7 @@ calendarGrid.addEventListener('click', (event) => {
     calendarDay.year = CalendarUI.year;
     calendarDay.displayCalendar(CalendarUI.saveDay, CalendarUI.month);
     let firstDay = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, 8).getTime();
-    let lastDay = new Date(CalendarUI.year, CalendarUI.month, (Number(CalendarUI.saveDay) +1), 22).getTime();
+    let lastDay = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, 22).getTime();
     storage.getMeeting(firstDay, lastDay);
     back.style.visibility = "visible";
     back.addEventListener('click', (e) => {
@@ -124,8 +124,7 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
     } else {
       CalendarUI.min = 0;
     }
-    const hourEvent = document.querySelector('.calendar-grid-hours');
-
+    
     if (storage.startHour !== undefined && check === 2) {
       clearSelection();
       storage.endHour = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, CalendarUI.hour, CalendarUI.min);
@@ -135,6 +134,7 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
         name : "New meeting"
       };
       meeting.displayMeetingHours(res, color);
+      res.end = res.end + 1800000;
       meeting.oneMeetingDay(res);
       check = 1;
       createMeeting.isset();
