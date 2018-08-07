@@ -116,6 +116,7 @@ export default class Meeting {
 
     let sub = document.createElement('input');
     let desc = document.createElement('textarea');
+    desc.setAttribute('placeholder', "description");
     sub.setAttribute('type', 'submit');
     sub.className = "day-submit";
     sub.value = 'send';
