@@ -82,7 +82,7 @@ calendarGrid.addEventListener('click', (event) => {
   if (event.target.className === `calendar-grid-day cm${CalendarUI.month}`) {
     displayDay(event.target.childNodes[0].innerText);
   }
-  if (event.target.className === 'event') {
+  if (event.target.className === 'event' || event.target.className === 'event_more' ) {
     displayDay(event.target.parentNode.childNodes[0].innerText)
   }
 
@@ -110,7 +110,6 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
     }
     
     if (storage.startHour !== undefined && check === 2) {
-      clearSelection();
       let lastClick = event.target;
       if (createMeeting.verifyUI(firstClick.className, lastClick.className) === false) {
         console.log('already taken !');
@@ -129,10 +128,9 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
         res.end = res.end + 1800000;
         meeting.oneMeetingDay(res);
         check = 1;
-        createMeeting.isset();
+        // createMeeting.isset();
       }
     } else {
-      clearSelection();
       let spanFrom = document.createElement('span');
       spanFrom.style.float = "left";
       firstClick = event.target;
@@ -164,7 +162,7 @@ info.addEventListener('click', (e) => {
 const addMeeting = document.querySelector('.add-event');
 addMeeting.addEventListener('click', (e) => {
   if (createMeeting.verifyNavbar === false) {
-    createMeeting.isset();
+    // createMeeting.isset();
     meeting.oneMeetingDay({"start": 0, "end" : 0});
   } else {
     createMeeting.reduce();
@@ -238,4 +236,37 @@ function smoothScrollTo(endY, duration = 400) {
   }, 1000/60);
 }
 
-console.log()
+let wdm = document.getElementById('wdm');
+let day = false,
+week = false,
+month = true;
+wdm.addEventListener('change', (e) => {
+  if (wdm.value === "day" && day === false) {
+    displayDay(new Date().getDate());
+    day = true;
+    week = false;
+    month = false;
+  } else if (wdm.value === "week") {
+    console.log('working on it');
+
+  } else if (wdm.value === "month" && month === false) {
+
+    let main = document.querySelector('main');
+    let calendarMonth = document.createElement('div');
+    calendarMonth.className = "calendar-grid";
+    calendarDay.CalendarGrid.innerHTML = "";
+    main.appendChild(calendar);
+    main.appendChild(CalendarUI.calendarGrid);
+    CalendarUI.titleMonth();
+    calendarDay.isset = false;
+    calendarDay.CalendarGrid.remove();
+    if (createMeeting.verifyNavbar === true) {
+      createMeeting.reduce();
+    }
+    day = false;
+    week = false;
+    month = true;
+
+  }
+});
+

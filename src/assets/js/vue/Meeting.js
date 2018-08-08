@@ -17,8 +17,8 @@ export default class Meeting {
       const event = document.createElement('div');
       const timeOfEvent = document.createElement('span');
       timeOfEvent.className = 'time';
-      event.className = "event";
-      let meeting = document.createTextNode('See more');
+      event.className = "event_more";
+      let meeting = document.createTextNode('...');
       event.appendChild(timeOfEvent);
       event.appendChild(meeting);
       dayText.parentElement.appendChild(event);
