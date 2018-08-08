@@ -19,6 +19,11 @@ let createMeeting = new AddMeeting;
 let check = 1;
 let firstClick;
 
+let wdm = document.getElementById('wdm');
+let day = false,
+week = false,
+month = true;
+
 // display day for the main calendar + CalendarGrid => main calendar
 const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 const calendar = document.querySelector('.calendar-days');
@@ -37,12 +42,41 @@ let lastDay = new Date(CalendarUI.year, CalendarUI.month+1, 0).getTime();
 storage.getMeeting(firstDay, lastDay);
 
 
+wdm.addEventListener('change', (e) => {
+  if (wdm.value === "day" && day === false) {
+    displayDay(new Date().getDate());
+    day = true;
+    week = false;
+    month = false;
+  } else if (wdm.value === "week") {
+    console.log('working on it');
+
+  } else if (wdm.value === "month" && month === false) {
+
+    let main = document.querySelector('main');
+    let calendarMonth = document.createElement('div');
+    calendarMonth.className = "calendar-grid";
+    calendarDay.CalendarGrid.innerHTML = "";
+    main.appendChild(calendar);
+    main.appendChild(CalendarUI.calendarGrid);
+    CalendarUI.titleMonth();
+    calendarDay.isset = false;
+    calendarDay.CalendarGrid.remove();
+    if (createMeeting.verifyNavbar === true) {
+      createMeeting.reduce();
+    }
+    day = false;
+    week = false;
+    month = true;
+
+  }
+});
+
 // header 
 // info => card to submit data, and to read content of meeting
 const prevMonth = document.querySelector('.previous--month');
 const nextMonth = document.querySelector('.next--month');
 const back = document.querySelector('.month-back');
-const info = document.querySelector('.info');
 
 prevMonth.addEventListener('click', (e) => {
   // calendarDay.isset => is it monthly or weekly ? true if weekly, false if monthly.
@@ -80,7 +114,7 @@ nextMonth.addEventListener('click', (e) => {
 // display weekly calendar 
 calendarGrid.addEventListener('click', (event) => {
   if (event.target.className === `calendar-grid-day cm${CalendarUI.month}`) {
-      displayDay(event.target.childNodes[0].innerText);
+    displayDay(event.target.childNodes[0].innerText);
   }
   if (event.target.className === 'event' || event.target.className === 'event_more' ) {
     displayDay(event.target.parentNode.childNodes[0].innerText)
@@ -126,9 +160,10 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
         smoothScrollTo((firstClick.offsetTop - 80), 350);
         meeting.displayMeetingHours(res, color);
         res.end = res.end + 1800000;
-        meeting.oneMeetingDay(res);
+        // meeting.oneMeetingDay(res);
+        createMeeting.isset();
+        issetInfo();
         check = 1;
-        // createMeeting.isset();
       }
     } else {
       let spanFrom = document.createElement('span');
@@ -142,17 +177,6 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
   event.preventDefault();
 });
 
-
-
-
-info.addEventListener('click', (e) => {
-
-  if (e.target.className === 'day-submit') {
-    // get value from UI, send it to API, sanitize it, then fetch data back
-    storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime()));
-  }
-});
-
 /**
  * Working on it :
  * 1) possibility to add event directly from main calendar
@@ -163,7 +187,7 @@ const addMeeting = document.querySelector('.add-event');
 addMeeting.addEventListener('click', (e) => {
   if (createMeeting.verifyNavbar === false) {
     // createMeeting.isset();
-    meeting.oneMeetingDay({"start": 0, "end" : 0});
+    // meeting.oneMeetingDay({"start": 0, "end" : 0});
   } else {
     createMeeting.reduce();
   }
@@ -209,6 +233,9 @@ function displayDay(saveDay) {
     }
 
     back.style.visibility = "hidden";
+    day = true;
+    week = false;
+    month = false;
   });
 }
 
@@ -236,37 +263,15 @@ function smoothScrollTo(endY, duration = 400) {
   }, 1000/60);
 }
 
-let wdm = document.getElementById('wdm');
-let day = false,
-week = false,
-month = true;
-wdm.addEventListener('change', (e) => {
-  if (wdm.value === "day" && day === false) {
-    displayDay(new Date().getDate());
-    day = true;
-    week = false;
-    month = false;
-  } else if (wdm.value === "week") {
-    console.log('working on it');
-
-  } else if (wdm.value === "month" && month === false) {
-
-    let main = document.querySelector('main');
-    let calendarMonth = document.createElement('div');
-    calendarMonth.className = "calendar-grid";
-    calendarDay.CalendarGrid.innerHTML = "";
-    main.appendChild(calendar);
-    main.appendChild(CalendarUI.calendarGrid);
-    CalendarUI.titleMonth();
-    calendarDay.isset = false;
-    calendarDay.CalendarGrid.remove();
-    if (createMeeting.verifyNavbar === true) {
+function issetInfo() {
+  document.querySelector('.card').addEventListener('click', (e) => {
+    if (e.target.className === 'card__footer-cancel') {
       createMeeting.reduce();
     }
-    day = false;
-    week = false;
-    month = true;
-
-  }
-});
-
+  
+    if (e.target.className === 'card__footer-btn') {
+      // get value from UI, send it to API, sanitize it, then fetch data back
+      storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime()));
+    }
+  });
+}

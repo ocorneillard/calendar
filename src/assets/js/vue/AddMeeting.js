@@ -11,21 +11,66 @@ export default class AddMeeting {
     this.log = document.querySelector('.login-login');
     this.sign = document.querySelector('.login-signup');
     this.add = document.querySelector('.add-event');
+    this.body = document.querySelector('body');
     this.verifyNavbar = false;
+    this.info = document.querySelector('.info');
   }
 
   isset() {
-    this.navbar.style.height = "10rem";
-    this.add.style.transform = "rotate(45deg)";
-    this.verifyNavbar = true;
+    this.info.innerHTML = 
+    `
+    <div class="card">
+      <div class="card__title">
+        <div class="card__title-center">
+          <form action="#">
+            <div class="test">
+  
+            </div>
+            <label for="month">
+                <i class="fas fa-calendar-alt"></i>
+              <select name="hours" id="hours">
+                <option>14h</option>
+                <option>14h30</option>
+              </select>
+              <input type="month" id="month">
+            </label>
+            <label for="name">
+              <i class="fas fa-chalkboard-teacher"></i>
+              <input type="text" name="" id="name" placeholder="Add a meeting name">
+            </label>
+            <label for="person">
+                <i class="fas fa-users"></i>
+              <input type="number" id="person" placeholder="How many persons ?">
+            </label>
+            <label for="email">
+                <i class="far fa-envelope"></i>
+                <input type="email" placeholder="john.smith@gmail.com">
+            </label>
+          </form>
+        </div>
+      </div>
+  
+      <div class="card__content">
+        <div class="card__content-primary">
+        </div>
+        <div class="card__content-secondary">
+          <div id="editor-container"></div>
+        </div>
+      </div>
+      <div class="card__footer">
+          <div class="card__footer-btn">
+            SAVE
+          </div>
+          <div class="card__footer-cancel">
+            CANCEL
+          </div>
+      </div>
+    </div>`;
+
   }
 
   reduce() {
-    this.form = document.querySelector('.card');
-    this.navbar.style.height = "4.5rem";
-    this.add.style.transform = "rotate(0deg)";
-    this.verifyNavbar = false;
-    this.form.remove();
+    document.querySelector('.card').remove();
   }
 
   validate(start, end) {

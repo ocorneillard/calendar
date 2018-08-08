@@ -3,6 +3,11 @@
 
 .event
   animation: 0.5s event cubic-bezier(.25, .8, .25, 1)
+.info
+  animation: 0.6s event cubic-bezier(.25, .8, .25, 1)
+
+.card
+  animation: 0.3s card cubic-bezier(.25, .8, .25, 1)
 
 .month .previous--month:hover, .month .next--month:hover
   cursor: pointer
@@ -46,11 +51,9 @@
 
 @keyframes card
   0%
-    transform: scaleY(0)
-    opacity: 0
+    transform: scaleY(0) translate(-50%,-50%)
   100%
-    transform: scaleY(1)
-    opacity: 1
+    transform: scaleY(1) translate(-50%,-50%)
 
 @keyframes grid
   0%
