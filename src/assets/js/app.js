@@ -80,7 +80,7 @@ nextMonth.addEventListener('click', (e) => {
 // display weekly calendar 
 calendarGrid.addEventListener('click', (event) => {
   if (event.target.className === `calendar-grid-day cm${CalendarUI.month}`) {
-    displayDay(event.target.childNodes[0].innerText);
+      displayDay(event.target.childNodes[0].innerText);
   }
   if (event.target.className === 'event' || event.target.className === 'event_more' ) {
     displayDay(event.target.parentNode.childNodes[0].innerText)
