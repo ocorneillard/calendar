@@ -6,8 +6,8 @@
   width: 100%
   display: grid
   justify-items: end
-  grid-template-columns: 5% 40% 10% 5% 10%
-  background: white
+  grid-template-columns: 4% 10% 35% 10% 5% 25% 10%
+  background: $yellow
   @include mboxshadow(1)
   z-index: 5
 
@@ -35,7 +35,7 @@
         transform: scale(1.5) translateX(-2px)
 
     i
-      color: $divider-color
+      color: $dark-primary-color
       transform: scale(1.5)
       margin-right: 10px
 
@@ -45,3 +45,17 @@
       color: $secondary-text
       font-weight: 700
       font-size: 1.8rem
+
+  .space
+    padding: 0.6rem 1.2rem
+
+    select
+      padding: 0.3rem 0.5rem
+      border: none
+      background: $yellow
+      border-radius: 3px
+      font-size: 1.5rem
+      color: $secondary-text
+      font-weight: 700
+      border: 1px solid $secondary-text
+

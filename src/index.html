@@ -11,9 +11,6 @@
 <body>
   
   <nav class="navbar">
-    <div class="navbar--homepage">
-      <img src="./assets/media/telenet_logo.png" alt="logo" width="35px" height="35px">
-    </div>
       <div class="navbar--form">
         <div class="info">
           
@@ -28,12 +25,15 @@
   
 
   <header class="month">
-    <div class="month-back">
-        <i class="fas fa-caret-left"></i>
-      <span class="month-back-txt">
-        back
-      </span>
+    <div class="navbar--homepage">
+      <img src="./assets/media/telenet_logo.png" alt="logo" width="35px" height="35px">
     </div>
+    <div class="month-back">
+      <i class="fas fa-caret-left"></i>
+    <span class="month-back-txt">
+      back
+    </span>
+  </div>
     <h1 class="title"></h1>
     <div class="previous--month">
       <i class="fas fa-arrow-left"></i>
@@ -41,7 +41,13 @@
     <div class="next--month">
         <i class="fas fa-arrow-right"></i>
     </div>
-    <div class="return"></div>
+    <div class="space">
+      <select name="display" id="">
+        <option value="">week</option>
+        <option value="">day</option>
+        <option value="">month</option>
+      </select>
+    </div>
   </header>
   <main>
     <div class="calendar-days">

@@ -36,6 +36,7 @@ export default class Calendar {
           this.displayCalendar(i, date !== allDate[1] || checkFirstMonth === false ? 'fadeMonth' : `cm${this.month}`);
           if (checkFirstMonth === true && i === new Date().getDate() && month === new Date().getMonth()) {
             document.querySelector(`.cm${this.month} .day${i}`).style.background = "#00E676";
+            document.querySelector(`.cm${this.month} .day${i}`).parentElement.style.background = 'rgba(189,189,189,0.3)';
           }
         }
         checkFirstMonth = true;

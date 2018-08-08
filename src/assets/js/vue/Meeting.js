@@ -54,7 +54,7 @@ export default class Meeting {
         } else {
           minutesEnd = 30;
         }
-        selectUI.innerText = `${start + ':' + minutesStart}  - ${end + ':' + minutesEnd}`;
+        selectUI.innerText = `${start + (minutesStart === 0 ? "h" : ':' + minutesStart + 'h')}  - ${end + (minutesEnd === 0 ? "h" : ':' + minutesEnd + 'h')}`;
         firstTime++;
       }
     }

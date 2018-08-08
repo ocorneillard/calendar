@@ -124,6 +124,7 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
           end : new Date(storage.endHour).getTime(),
           name : "New meeting"
         };
+        smoothScrollTo((firstClick.offsetTop - 80), 350);
         meeting.displayMeetingHours(res, color);
         res.end = res.end + 1800000;
         meeting.oneMeetingDay(res);
@@ -212,3 +213,29 @@ function displayDay(saveDay) {
     back.style.visibility = "hidden";
   });
 }
+
+
+function smoothScrollTo(endY, duration = 400) {
+  const startY = window.pageYOffset,
+  distanceY = endY - startY,
+  startTime = new Date().getTime();
+
+  const easeInOut = (time, from, distance, duration) => {
+    if ((time /= duration / 2) < 1) {
+      return distance / 2 * time * time * time * time + from;
+    } else {
+      return -distance / 2 * ((time -= 2) * time * time * time - 2) + from;
+    }
+  }
+
+  const timer = setInterval(() => {
+    const time = new Date().getTime() - startTime,
+    newY = easeInOut(time, startY, distanceY, duration);
+    if (time >= duration) {
+      clearInterval(timer);
+    }
+    scrollTo(0, newY);
+  }, 1000/60);
+}
+
+console.log()
