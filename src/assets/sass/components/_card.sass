@@ -5,10 +5,11 @@
   display: inline-block
   margin: 2rem
   position: fixed
-  top: 45%
+  top: 40%
   left: 50%
   transform: translate(-50%,-50%)
-  width: 50vw
+  width: 35vw
+  min-width: 350px
   border-radius: 8px
 
   &__title
@@ -44,12 +45,21 @@
 
   &__content
     padding: 4rem
-    height: 20rem
+    height: 30rem
 
-    #editor-container
-      height: 26rem
-      font-size: 0.9rem
-      color: black
+    textarea
+      height: 15rem
+      width: 100%
+      resize: none
+      font-size: 1.6rem
+      text-align: left
+      padding: 0.6rem 1rem 
+      @include mboxshadow(1)
+
+    .hell
+      div
+        display: inline-block
+        float: right
 
     &-primary
       color: $primary-text
@@ -92,3 +102,10 @@
       cursor: pointer
       @include mboxshadow(1)
       transition: all 0.3s cubic-bezier(.25, .8, .25, 1)
+
+
+.test
+  .time__input
+    select
+      padding: 0.6rem 1rem 
+      border: none

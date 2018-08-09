@@ -16,35 +16,30 @@ export default class AddMeeting {
     this.info = document.querySelector('.info');
   }
 
-  isset() {
+  isset(start, recaptcha) {
     this.info.innerHTML = 
     `
     <div class="card">
       <div class="card__title">
         <div class="card__title-center">
-          <form action="#">
+          <form action="?" action="/submit" method="post" id="comment_form">
             <div class="test">
-  
+            <i class="fas fa-calendar-alt"></i>
             </div>
-            <label for="month">
-                <i class="fas fa-calendar-alt"></i>
-              <select name="hours" id="hours">
-                <option>14h</option>
-                <option>14h30</option>
-              </select>
-              <input type="month" id="month">
+            <label for="date">
+              <input type="date" id="date" value="${this.getFormattedDate(new Date(start))}">
             </label>
             <label for="name">
               <i class="fas fa-chalkboard-teacher"></i>
-              <input type="text" name="" id="name" placeholder="Add a meeting name">
+              <input type="text" name="" id="name" placeholder="Add a meeting name" class="day-text">
             </label>
             <label for="person">
                 <i class="fas fa-users"></i>
-              <input type="number" id="person" placeholder="How many persons ?">
+              <input type="number" id="person" placeholder="How many persons ?" class="day-number">
             </label>
             <label for="email">
                 <i class="far fa-envelope"></i>
-                <input type="email" placeholder="john.smith@gmail.com">
+                <input type="email" placeholder="john.smith@gmail.com" class="day-email">
             </label>
           </form>
         </div>
@@ -54,7 +49,10 @@ export default class AddMeeting {
         <div class="card__content-primary">
         </div>
         <div class="card__content-secondary">
-          <div id="editor-container"></div>
+          <div id="editor-container">
+            <textarea placeholder="Add a description to your meeting..."></textarea>
+          </div>
+          <div class="hell"></div>
         </div>
       </div>
       <div class="card__footer">
@@ -66,7 +64,10 @@ export default class AddMeeting {
           </div>
       </div>
     </div>`;
-
+    // <input type="submit" class="card__footer-btn" value="SAVE"/>
+    setTimeout(() => {
+      recaptcha();
+    }, 200)
   }
 
   reduce() {
@@ -75,7 +76,7 @@ export default class AddMeeting {
 
   validate(start, end) {
     let name = document.querySelector('.day-text').value,
-    // number = document.querySelector('.day-number').value,
+    number = document.querySelector('.day-number').value,
     email = document.querySelector('.day-email').value,
     desc = document.querySelector('textarea').value,
     timeInput = document.querySelectorAll('select');
@@ -83,19 +84,18 @@ export default class AddMeeting {
     timeInput.forEach( (select) => {
       value.push(select.value.replace('h', ''));
     });
-    console.log(new Date(start));
-    console.log(value);
     // console.log(number);
 
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     name = name.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
-    // number = Number.isInteger(number);
     re = re.test(String(email).toLowerCase());
     name = name.trim();
     let submit = {
       start,
       end,
       name,
+      "persons" : number,
+      desc,
       email
     };
 
@@ -112,5 +112,26 @@ export default class AddMeeting {
         return false;
       }
     }
+  }
+
+  getFormattedDate(date) {
+    var year = date.getFullYear();
+  
+    var month = (1 + date.getMonth()).toString();
+    month = month.length > 1 ? month : '0' + month;
+  
+    var day = date.getDate().toString();
+    day = day.length > 1 ? day : '0' + day;
+    
+    return year + '-' + month + '-' + day;
+  }
+
+  recaptcha() {
+    let create = document.createElement('div');
+    grecaptcha.render(create, {
+      sitekey : "6LffHmkUAAAAAI2sB779g4mSv6HpOEy1ZXH0M_XF"
+    });
+    let dot = document.querySelector('.hell');
+    dot.appendChild(create);
   }
 }

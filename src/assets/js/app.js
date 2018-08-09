@@ -161,8 +161,11 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
         meeting.displayMeetingHours(res, color);
         res.end = res.end + 1800000;
         // meeting.oneMeetingDay(res);
-        createMeeting.isset();
+        createMeeting.isset(res.start, createMeeting.recaptcha);
         issetInfo();
+        let addInputHours = document.querySelector('.test');
+        addInputHours.appendChild(meeting.createInputHours(new Date(res.start).getHours(), new Date(res.start).getMinutes()));
+        addInputHours.appendChild(meeting.createInputHours(new Date(res.end).getHours(), new Date(res.end).getMinutes(), true));
         check = 1;
       }
     } else {
@@ -270,8 +273,22 @@ function issetInfo() {
     }
   
     if (e.target.className === 'card__footer-btn') {
+      console.log('lol');
+      let res = {"g-recaptcha-response" : grecaptcha.getResponse()};
+      console.log(res);
+      storage.post("submit", res)
+        .then( (response) => {
+          console.log(response);
+          if (response.responseCode === 0) {
+            storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime()));
+            createMeeting.reduce();
+            calendarDay.CalendarGrid.innerHTML = "";
+            displayDay(CalendarUI.saveDay);
+          } else {
+            console.log('Captcha incorrect !');
+          }
+        });
       // get value from UI, send it to API, sanitize it, then fetch data back
-      storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime()));
     }
   });
 }

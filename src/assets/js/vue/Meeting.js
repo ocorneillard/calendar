@@ -45,7 +45,7 @@ export default class Meeting {
       selectUI.style.border = "none";
       selectUI.style.borderLeft = "2rem solid " + color + ".6)";
       if (firstTime === 1) {
-        selectUI.innerText = `${res.name} - 4persons`;
+        selectUI.innerText = `${res.name} ${res.numberOfperson === undefined ? "" : " -  " + res.numberOfperson + "persons"}`;
         firstTime++;
       } else if (firstTime === 2) {
         if (minutesEnd === 30) {
