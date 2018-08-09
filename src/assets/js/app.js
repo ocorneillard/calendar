@@ -273,12 +273,10 @@ function issetInfo() {
     }
   
     if (e.target.className === 'card__footer-btn') {
-      console.log('lol');
       let res = {"g-recaptcha-response" : grecaptcha.getResponse()};
-      console.log(res);
       storage.post("submit", res)
         .then( (response) => {
-          console.log(response);
+          response = JSON.parse(response);
           if (response.responseCode === 0) {
             storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime()));
             createMeeting.reduce();
@@ -288,7 +286,6 @@ function issetInfo() {
             console.log('Captcha incorrect !');
           }
         });
-      // get value from UI, send it to API, sanitize it, then fetch data back
     }
   });
 }
