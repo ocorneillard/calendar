@@ -18,7 +18,7 @@ let meeting = new Meeting;
 let createMeeting = new AddMeeting;
 let check = 1;
 let firstClick;
-
+let quill;
 let wdm = document.getElementById('wdm');
 let day = false,
 week = false,
@@ -163,6 +163,10 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
         // meeting.oneMeetingDay(res);
         createMeeting.isset(res.start, createMeeting.recaptcha);
         issetInfo();
+        quill = new Quill('.quill', {
+          theme: 'snow',
+          placeholder: 'Add a description to your meeting'
+        });
         let addInputHours = document.querySelector('.test');
         addInputHours.appendChild(meeting.createInputHours(new Date(res.start).getHours(), new Date(res.start).getMinutes()));
         addInputHours.appendChild(meeting.createInputHours(new Date(res.end).getHours(), new Date(res.end).getMinutes(), true));
@@ -233,12 +237,13 @@ function displayDay(saveDay) {
     calendarDay.CalendarGrid.remove();
     if (createMeeting.verifyNavbar === true) {
       createMeeting.reduce();
+      createMeeting.verifyNavbar = false;
     }
 
     back.style.visibility = "hidden";
-    day = true;
+    day = false;
     week = false;
-    month = false;
+    month = true;
   });
 }
 
@@ -275,19 +280,24 @@ function issetInfo() {
     }
   
     if (e.target.className === 'card__footer-btn') {
-      let res = {"g-recaptcha-response" : grecaptcha.getResponse()};
-      storage.post("submit", res)
-        .then( (response) => {
-          response = JSON.parse(response);
-          if (response.responseCode === 0) {
-            storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime()));
-            createMeeting.reduce();
-            calendarDay.CalendarGrid.innerHTML = "";
-            displayDay(CalendarUI.saveDay);
-          } else {
-            console.log('Captcha incorrect !');
-          }
-        });
+      // let res = {"g-recaptcha-response" : grecaptcha.getResponse()};
+      // storage.post("submit", res)
+      //   .then( (response) => {
+      //     response = JSON.parse(response);
+      //     if (response.responseCode === 0) {
+            // storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime()));
+      //       createMeeting.reduce();
+      //       calendarDay.CalendarGrid.innerHTML = "";
+      //       displayDay(CalendarUI.saveDay);
+      //     } else {
+      //       console.log('Captcha incorrect !');
+      //     }
+      //   });
+      let tes = quill.getContents();
+      storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime(), tes));
+      createMeeting.reduce();
+      calendarDay.CalendarGrid.innerHTML = "";
+      displayDay(CalendarUI.saveDay);
     }
   });
 }

@@ -22,7 +22,7 @@ export default class AddMeeting {
     <div class="card">
       <div class="card__title">
         <div class="card__title-center">
-          <form action="?" action="/submit" method="post" id="comment_form">
+          <form action="#" id="comment_form">
             <div class="test">
             <i class="fas fa-calendar-alt"></i>
             </div>
@@ -50,7 +50,7 @@ export default class AddMeeting {
         </div>
         <div class="card__content-secondary">
           <div id="editor-container">
-            <textarea placeholder="Add a description to your meeting..."></textarea>
+            <div class="quill"></div>
           </div>
           <div class="hell"></div>
         </div>
@@ -65,6 +65,7 @@ export default class AddMeeting {
       </div>
     </div>`;
     // <input type="submit" class="card__footer-btn" value="SAVE"/>
+    //             <textarea placeholder="Add a description to your meeting..."></textarea>
     setTimeout(() => {
       recaptcha();
     }, 200)
@@ -74,18 +75,15 @@ export default class AddMeeting {
     document.querySelector('.card').remove();
   }
 
-  validate(start, end) {
+  validate(start, end, tes) {
     let name = document.querySelector('.day-text').value,
     number = document.querySelector('.day-number').value,
     email = document.querySelector('.day-email').value,
-    desc = document.querySelector('textarea').value,
     timeInput = document.querySelectorAll('select');
     let value = [];
     timeInput.forEach( (select) => {
       value.push(select.value.replace('h', ''));
     });
-    // console.log(number);
-
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     name = name.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
     re = re.test(String(email).toLowerCase());
@@ -95,10 +93,10 @@ export default class AddMeeting {
       end,
       name,
       "persons" : number,
-      desc,
+      "desc" : tes,
       email
     };
-
+    console.log(submit);
     return submit;
   }
 
