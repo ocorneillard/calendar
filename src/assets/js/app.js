@@ -270,6 +270,8 @@ function issetInfo() {
   document.querySelector('.card').addEventListener('click', (e) => {
     if (e.target.className === 'card__footer-cancel') {
       createMeeting.reduce();
+      calendarDay.CalendarGrid.innerHTML = "";
+      displayDay(CalendarUI.saveDay);
     }
   
     if (e.target.className === 'card__footer-btn') {
