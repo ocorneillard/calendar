@@ -96,7 +96,6 @@ export default class AddMeeting {
       "desc" : tes,
       email
     };
-    console.log(submit);
     return submit;
   }
 

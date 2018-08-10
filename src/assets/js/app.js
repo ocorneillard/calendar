@@ -193,7 +193,15 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
 const addMeeting = document.querySelector('.add-event');
 addMeeting.addEventListener('click', (e) => {
   if (createMeeting.verifyNavbar === false) {
-    // createMeeting.isset();
+    createMeeting.isset(createMeeting.getFormattedDate(new Date()), createMeeting.recaptcha);
+    quill = new Quill('.quill', {
+      theme: 'snow',
+      placeholder: 'Add a description to your meeting'
+    });
+    issetInfo();
+    let addInputHours = document.querySelector('.test');
+    addInputHours.appendChild(meeting.createInputHours(new Date().getHours(), new Date().getMinutes()));
+    addInputHours.appendChild(meeting.createInputHours(new Date().getHours() + 1, new Date().getMinutes(), true));
     // meeting.oneMeetingDay({"start": 0, "end" : 0});
   } else {
     createMeeting.reduce();
@@ -274,18 +282,23 @@ function smoothScrollTo(endY, duration = 400) {
 function issetInfo() {
   document.querySelector('.card').addEventListener('click', (e) => {
     if (e.target.className === 'card__footer-cancel') {
-      createMeeting.reduce();
-      calendarDay.CalendarGrid.innerHTML = "";
-      displayDay(CalendarUI.saveDay);
+      setTimeout(() => {
+        createMeeting.reduce();
+        if (calendarDay.isset === true) {
+          calendarDay.CalendarGrid.innerHTML = "";
+          displayDay(CalendarUI.saveDay);
+        }
+      }, 50);
     }
   
     if (e.target.className === 'card__footer-btn') {
-      // let res = {"g-recaptcha-response" : grecaptcha.getResponse()};
+      let tes = quill.getContents();
+      let res = {"g-recaptcha-response" : grecaptcha.getResponse()};
       // storage.post("submit", res)
       //   .then( (response) => {
       //     response = JSON.parse(response);
       //     if (response.responseCode === 0) {
-            // storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime()));
+      //       storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime(), tes));
       //       createMeeting.reduce();
       //       calendarDay.CalendarGrid.innerHTML = "";
       //       displayDay(CalendarUI.saveDay);
@@ -293,7 +306,6 @@ function issetInfo() {
       //       console.log('Captcha incorrect !');
       //     }
       //   });
-      let tes = quill.getContents();
       storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime(), tes));
       createMeeting.reduce();
       calendarDay.CalendarGrid.innerHTML = "";
