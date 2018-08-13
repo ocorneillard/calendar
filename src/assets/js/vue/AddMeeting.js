@@ -17,6 +17,7 @@ export default class AddMeeting {
   }
 
   isset(start, recaptcha) {
+    this.body.style.background = "rgba(0,0,0,0.4)";
     this.info.innerHTML = 
     `
     <div class="card">
@@ -72,6 +73,7 @@ export default class AddMeeting {
 
   reduce() {
     document.querySelector('.card').remove();
+    this.body.style.background = "";
   }
 
   validate(tes) {
