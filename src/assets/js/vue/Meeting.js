@@ -2,14 +2,18 @@ export default class Meeting {
 
   displayMeeting(res) {
     const dayText = document.querySelector(`.cm${new Date(res.start).getMonth()} .day${new Date(res.start).getDate()}`);
+    let start = new Date(res.start).getHours();
+    let end = new Date(res.end).getHours();
+    let minutesStart = new Date(res.start).getMinutes();
+    let minutesEnd = new Date(res.end).getMinutes();
     if (dayText.parentElement.childElementCount < 3) {
       const event = document.createElement('div');
       const timeOfEvent = document.createElement('span');
-      const timeText = document.createTextNode(new Date(res.start).getHours()+ "-" + new Date(res.end).getHours());
+      const timeText = document.createTextNode(`${start + (minutesStart === 0 ? "h" : 'h' + minutesStart)}  - ${end + (minutesEnd === 0 ? "h" : 'h' + minutesEnd)}`);
       timeOfEvent.appendChild(timeText);
       timeOfEvent.className = 'time';
       event.className = "event";
-      let meeting = document.createTextNode(res.name);
+      let meeting = document.createTextNode('Meeting');
       event.appendChild(timeOfEvent);
       event.appendChild(meeting);
       dayText.parentElement.appendChild(event);
@@ -45,7 +49,7 @@ export default class Meeting {
       selectUI.style.border = "none";
       selectUI.style.borderLeft = "2rem solid " + color + ".6)";
       if (firstTime === 1) {
-        selectUI.innerText = `${res.name} ${res.numberOfperson === undefined ? "" : " -  " + res.numberOfperson + "persons"}`;
+        selectUI.innerText = `Meeting ${res.numberOfperson === undefined ? "" : " -  " + res.numberOfperson + "persons"}`;
         firstTime++;
       } else if (firstTime === 2) {
         if (minutesEnd === 30) {
@@ -54,7 +58,7 @@ export default class Meeting {
         } else {
           minutesEnd = 30;
         }
-        selectUI.innerText = `${start + (minutesStart === 0 ? "h" : ':' + minutesStart + 'h')}  - ${end + (minutesEnd === 0 ? "h" : ':' + minutesEnd + 'h')}`;
+        selectUI.innerText = `${start + (minutesStart === 0 ? "h" : 'h' + minutesStart)}  - ${end + (minutesEnd === 0 ? "h" : 'h' + minutesEnd)}`;
         firstTime++;
       }
     }
@@ -89,53 +93,6 @@ export default class Meeting {
     info.appendChild(card);
   }
 
-  oneMeetingDay(res = undefined) {
-    const info = document.querySelector(".info");
-    if ( info.childNodes.length !== 0) {
-      info.innerHTML = '';
-    }
-    let txt = "New meeting from ";
-    let card = Meeting.createDiv(undefined, "card");
-    let cardContent = Meeting.createDiv(undefined, "card__content");
-    let cardPrimary = Meeting.createDiv(txt, "card__content-primary");
-    let cardSecond = Meeting.createDiv(undefined, "card__content-secondary");
-    let createSubDes = Meeting.createDiv(undefined, "secondary-subdesc");
-    let createInput = Meeting.createDiv(undefined, 'secondary-input');
-    let inputs = ['text', "email"];
-    // 'number',
-    let placeholder = ['Meeting', "john@telenetgroup.be"];
-    // , '6 persons'
-    let count = 0;
-    inputs.forEach( (input) => {
-      let cardSecondInput = document.createElement('input');
-      cardSecondInput.setAttribute('type', input);
-      cardSecondInput.setAttribute('placeholder', placeholder[count]);
-      cardSecondInput.className = "day-" + input;
-      createInput.appendChild(cardSecondInput)
-      cardSecond.appendChild(createInput);
-      count++;
-    });
-
-    let sub = document.createElement('input');
-    let desc = document.createElement('textarea');
-    desc.setAttribute('placeholder', "description");
-    sub.setAttribute('type', 'submit');
-    sub.className = "day-submit";
-    sub.value = 'send';
-    createSubDes.appendChild(desc);
-    createSubDes.appendChild(sub);
-
-
-
-    cardPrimary.appendChild(this.createInputHours(new Date(res.start).getHours(), new Date(res.start).getMinutes()));
-    cardPrimary.appendChild(this.createInputHours(new Date(res.end).getHours(), new Date(res.end).getMinutes(), true));
-    cardSecond.appendChild(createSubDes);
-    cardContent.appendChild(cardPrimary);
-    cardContent.appendChild(cardSecond);
-    card.appendChild(cardContent);
-    info.appendChild(card);
-  }
-
 
   static createDiv(txtContent = "", css) {
     let appendRight = document.createElement('div');
@@ -146,18 +103,16 @@ export default class Meeting {
   
   createInputHours(h, min, bool = false) {
   function populateHours(b) {
-    for(var i = 8; i <= 22; i++) {
-      var option = document.createElement('option');
-      option.textContent = i + "h";
-      hourSelect.appendChild(option);
-    }
-  }
-
-  function populateMinutes(b) {
-    for(var i = 0; i <= 59; i = i + 30) {
-      var option = document.createElement('option');
-      option.textContent = (i < 10) ? ("0" + i) : i;
-      minuteSelect.appendChild(option);
+    for(var i = 8; i <= 22; i = i + 0.5) {
+      if (i % 1 === 0) {
+        var option = document.createElement('option');
+        option.textContent = i + "h";
+        hourSelect.appendChild(option);
+      } else {
+        var option = document.createElement('option');
+        option.textContent = Math.floor(i) + "h" + "30";
+        hourSelect.appendChild(option);
+      }
     }
   }
 
@@ -166,15 +121,12 @@ export default class Meeting {
     time.innerText = ' to ';
   }
   let hourSelect = document.createElement('select');
-  let minuteSelect = document.createElement('select');
+  hourSelect.className = "time__input-hours";
   time.className = "time__input";
 
   populateHours(bool);
-  populateMinutes(bool);
   time.appendChild(hourSelect);
-  time.appendChild(minuteSelect);
-  hourSelect.value = (h === undefined ? "8h" : (h === 1 ? 8 : h) + "h");
-  minuteSelect.value = (min === undefined ? "00" : (min === 0 ? "00" : "30"));
+  hourSelect.value = (min === 30 ? h + "h" + min : h + "h");
   return time;
   }
 }

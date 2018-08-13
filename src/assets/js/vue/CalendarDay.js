@@ -5,7 +5,6 @@ export default class CalendarDay {
     this.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.CalendarGrid = document.createElement('div');
     this.CalendarGrid.className = 'calendar-grid-hours';
-    // this.CalendarGrid = document.querySelector('.calendar-grid-hours');
     this.isset = false;
     this.year = new Date().getFullYear();
   }
@@ -98,10 +97,4 @@ export default class CalendarDay {
     this.CalendarGrid.innerHTML = '';
     this.displayCalendar(this.day, this.month);
   }
-
-  // eventUI(start, end) {
-  //   let startHour = new Date(start).getHours();
-  //   let endHour = new Date(end).getHours();
-
-  // }
 }

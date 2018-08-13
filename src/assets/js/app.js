@@ -19,7 +19,6 @@ let createMeeting = new AddMeeting;
 let check = 1;
 let firstClick;
 let quill;
-let wdm = document.getElementById('wdm');
 let day = false,
 week = false,
 month = true;
@@ -42,35 +41,36 @@ let lastDay = new Date(CalendarUI.year, CalendarUI.month+1, 0).getTime();
 storage.getMeeting(firstDay, lastDay);
 
 
-wdm.addEventListener('change', (e) => {
-  if (wdm.value === "day" && day === false) {
-    displayDay(new Date().getDate());
-    day = true;
-    week = false;
-    month = false;
-  } else if (wdm.value === "week") {
-    console.log('working on it');
+// let wdm = document.getElementById('wdm');
+// wdm.addEventListener('change', (e) => {
+//   if (wdm.value === "day" && day === false) {
+//     displayDay(new Date().getDate());
+//     day = true;
+//     week = false;
+//     month = false;
+//   } else if (wdm.value === "week") {
+//     console.log('working on it');
 
-  } else if (wdm.value === "month" && month === false) {
+//   } else if (wdm.value === "month" && month === false) {
 
-    let main = document.querySelector('main');
-    let calendarMonth = document.createElement('div');
-    calendarMonth.className = "calendar-grid";
-    calendarDay.CalendarGrid.innerHTML = "";
-    main.appendChild(calendar);
-    main.appendChild(CalendarUI.calendarGrid);
-    CalendarUI.titleMonth();
-    calendarDay.isset = false;
-    calendarDay.CalendarGrid.remove();
-    if (createMeeting.verifyNavbar === true) {
-      createMeeting.reduce();
-    }
-    day = false;
-    week = false;
-    month = true;
+//     let main = document.querySelector('main');
+//     let calendarMonth = document.createElement('div');
+//     calendarMonth.className = "calendar-grid";
+//     calendarDay.CalendarGrid.innerHTML = "";
+//     main.appendChild(calendar);
+//     main.appendChild(CalendarUI.calendarGrid);
+//     CalendarUI.titleMonth();
+//     calendarDay.isset = false;
+//     calendarDay.CalendarGrid.remove();
+//     if (createMeeting.verifyNavbar === true) {
+//       createMeeting.reduce();
+//     }
+//     day = false;
+//     week = false;
+//     month = true;
 
-  }
-});
+//   }
+// });
 
 // header 
 // info => card to submit data, and to read content of meeting
@@ -208,19 +208,6 @@ addMeeting.addEventListener('click', (e) => {
   }
   e.preventDefault();
 });
-/**
- * Sometimes, data doesn't fetch directly => error 500, even if the code of API seems correct => Mainly due to webpack I think
- * When on week calendar, if you change month, it brings you back on an incorrect month.
- */
-
-function clearSelection() {
-  if(document.selection && document.selection.empty) {
-      document.selection.empty();
-  } else if(window.getSelection) {
-      var sel = window.getSelection();
-      sel.removeAllRanges();
-  }
-}
 
 function displayDay(saveDay) {
 

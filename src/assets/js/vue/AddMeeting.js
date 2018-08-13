@@ -24,11 +24,10 @@ export default class AddMeeting {
         <div class="card__title-center">
           <form action="#" id="comment_form">
             <div class="test">
-            <i class="fas fa-calendar-alt"></i>
-            </div>
             <label for="date">
-              <input type="date" id="date" value="${this.getFormattedDate(new Date(start))}">
+            <input type="date" id="date" class="card__title-date" value="${this.getFormattedDate(new Date(start))}">
             </label>
+            </div>
             <label for="name">
               <i class="fas fa-chalkboard-teacher"></i>
               <input type="text" name="" id="name" placeholder="Add a meeting name" class="day-text">
@@ -75,18 +74,19 @@ export default class AddMeeting {
     document.querySelector('.card').remove();
   }
 
-  validate(start, end, tes) {
+  validate(tes) {
     let name = document.querySelector('.day-text').value,
     number = document.querySelector('.day-number').value,
     email = document.querySelector('.day-email').value,
-    timeInput = document.querySelectorAll('select');
-    let value = [];
-    timeInput.forEach( (select) => {
-      value.push(select.value.replace('h', ''));
-    });
+    timeInputs = document.querySelectorAll('select'),
+    time = document.querySelector('#date');
+    let value = time.value.split('-');
+    let start = new Date(value[0], value[1] - 1, value[2], getHours(timeInputs[0], 1), getHours(timeInputs[0], 0)).getTime();
+    let end = new Date(value[0], value[1] - 1, value[2], getHours(timeInputs[1], 1), getHours(timeInputs[1], 0)).getTime();
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     name = name.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
     re = re.test(String(email).toLowerCase());
+
     name = name.trim();
     let submit = {
       start,
@@ -96,6 +96,17 @@ export default class AddMeeting {
       "desc" : tes,
       email
     };
+
+    function getHours(timeInput, checkHour) {
+      if (checkHour === 1) {
+        let hour = timeInput.value.split('h')[0];
+        return hour;
+      } else {
+        let min = timeInput.value.split('h')[1];
+        return min;
+      }
+    }
+
     return submit;
   }
 
