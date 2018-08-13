@@ -9,6 +9,13 @@ export default class Meeting {
     if (dayText.parentElement.childElementCount < 3) {
       const event = document.createElement('div');
       const timeOfEvent = document.createElement('span');
+      
+      if (minutesEnd === 30) {
+        minutesEnd = 0;
+        end++;
+      } else {
+        minutesEnd = 30;
+      }
       const timeText = document.createTextNode(`${start + (minutesStart === 0 ? "h" : 'h' + minutesStart)}  - ${end + (minutesEnd === 0 ? "h" : 'h' + minutesEnd)}`);
       timeOfEvent.appendChild(timeText);
       timeOfEvent.className = 'time';
@@ -49,7 +56,7 @@ export default class Meeting {
       selectUI.style.border = "none";
       selectUI.style.borderLeft = "2rem solid " + color + ".6)";
       if (firstTime === 1) {
-        selectUI.innerText = `Meeting ${res.numberOfperson === undefined || res.numberOfperson === 0 ? "" : " -  " + res.numberOfperson + " persons"}`;
+        selectUI.innerText = `Meeting ${res.numberOfperson === undefined || res.numberOfperson == 0 ? "" : " -  " + res.numberOfperson + " persons"}`;
         firstTime++;
       } else if (firstTime === 2) {
         if (minutesEnd === 30) {

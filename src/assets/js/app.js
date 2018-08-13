@@ -280,23 +280,25 @@ function issetInfo() {
   
     if (e.target.className === 'card__footer-btn') {
       let tes = quill.getContents();
-      let res = {"g-recaptcha-response" : grecaptcha.getResponse()};
-      storage.post("submit", res)
-        .then( (response) => {
-          response = JSON.parse(response);
-          if (response.responseCode === 0) {
-            storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime(), tes));
-            createMeeting.reduce();
-            calendarDay.CalendarGrid.innerHTML = "";
-            displayDay(CalendarUI.saveDay);
-          } else {
-            console.log('Captcha incorrect !');
-          }
-        });
-      // storage.addMeeting(createMeeting.validate(tes));
-      // createMeeting.reduce();
-      // calendarDay.CalendarGrid.innerHTML = "";
-      // displayDay(CalendarUI.saveDay);
+      // let res = {"g-recaptcha-response" : grecaptcha.getResponse()};
+      // storage.post("submit", res)
+      //   .then( (response) => {
+      //     response = JSON.parse(response);
+      //     if (response.responseCode === 0) {
+      //       storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime(), tes));
+      //       createMeeting.reduce();
+      //       calendarDay.CalendarGrid.innerHTML = "";
+      //       displayDay(CalendarUI.saveDay);
+      //     } else {
+      //       console.log('Captcha incorrect !');
+      //     }
+        // });
+      storage.addMeeting(createMeeting.validate(tes));
+      createMeeting.reduce();
+      if (calendarDay.isset === true) {
+        calendarDay.CalendarGrid.innerHTML = "";
+        displayDay(CalendarUI.saveDay);
+      }
     }
   });
 }
