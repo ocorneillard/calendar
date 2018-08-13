@@ -4,8 +4,6 @@ export default class Calendar {
     this.month = month=== undefined ? new Date().getMonth() : month;
     this.year = year=== undefined ? new Date().getFullYear() : year;
     this.calendarGrid = document.querySelector('.calendar-grid');
-    // this.calendarGrid = document.createElement('div');
-    // this.calendarGrid.className = "calendar-grid";
     this.calendarTitle = document.querySelector('h1');
     this.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.min = 0;

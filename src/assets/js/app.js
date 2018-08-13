@@ -34,46 +34,12 @@ days.forEach( (day) => {
   calendar.appendChild(calendarDay);
 });
 
-// create and fetch event for the main calendar
 CalendarUI.dayOfCalendar();
 let firstDay = new Date(CalendarUI.year, CalendarUI.month, 0).getTime();
 let lastDay = new Date(CalendarUI.year, CalendarUI.month+1, 0).getTime();
 storage.getMeeting(firstDay, lastDay);
 
 
-// let wdm = document.getElementById('wdm');
-// wdm.addEventListener('change', (e) => {
-//   if (wdm.value === "day" && day === false) {
-//     displayDay(new Date().getDate());
-//     day = true;
-//     week = false;
-//     month = false;
-//   } else if (wdm.value === "week") {
-//     console.log('working on it');
-
-//   } else if (wdm.value === "month" && month === false) {
-
-//     let main = document.querySelector('main');
-//     let calendarMonth = document.createElement('div');
-//     calendarMonth.className = "calendar-grid";
-//     calendarDay.CalendarGrid.innerHTML = "";
-//     main.appendChild(calendar);
-//     main.appendChild(CalendarUI.calendarGrid);
-//     CalendarUI.titleMonth();
-//     calendarDay.isset = false;
-//     calendarDay.CalendarGrid.remove();
-//     if (createMeeting.verifyNavbar === true) {
-//       createMeeting.reduce();
-//     }
-//     day = false;
-//     week = false;
-//     month = true;
-
-//   }
-// });
-
-// header 
-// info => card to submit data, and to read content of meeting
 const prevMonth = document.querySelector('.previous--month');
 const nextMonth = document.querySelector('.next--month');
 const back = document.querySelector('.month-back');
@@ -280,21 +246,19 @@ function issetInfo() {
   
     if (e.target.className === 'card__footer-btn') {
       let tes = quill.getContents();
-      // let res = {"g-recaptcha-response" : grecaptcha.getResponse()};
-      // storage.post("submit", res)
-      //   .then( (response) => {
-      //     response = JSON.parse(response);
-      //     if (response.responseCode === 0) {
-      //       storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime(), tes));
-      //       createMeeting.reduce();
-      //       calendarDay.CalendarGrid.innerHTML = "";
-      //       displayDay(CalendarUI.saveDay);
-      //     } else {
-      //       console.log('Captcha incorrect !');
-      //     }
-        // });
-      storage.addMeeting(createMeeting.validate(tes));
-      createMeeting.reduce();
+      let res = {"g-recaptcha-response" : grecaptcha.getResponse()};
+      storage.post("submit", res)
+        .then( (response) => {
+          response = JSON.parse(response);
+          if (response.responseCode === 0) {
+            storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime(), tes));
+            createMeeting.reduce();
+          } else {
+            console.log('Captcha incorrect !');
+          }
+        });
+      // storage.addMeeting(createMeeting.validate(tes));
+      // createMeeting.reduce();
       if (calendarDay.isset === true) {
         calendarDay.CalendarGrid.innerHTML = "";
         displayDay(CalendarUI.saveDay);
