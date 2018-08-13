@@ -5,13 +5,14 @@
   display: inline-block
   margin: 2rem
   position: fixed
-  top: 50%
-  left: 50%
-  transform: translate(-50%,-50%)
+  top: calc(50% - 35rem)
+  left: calc(50% - 17.5vw)
   width: 35vw
   min-width: 350px
   border-radius: 8px
   z-index: 15
+  backface-visibility: hidden
+  -webkit-backface-visibility: hidden
 
   &__title
     position: relative
@@ -21,14 +22,13 @@
     // letter-spacing: 0.1487rem
     color: #212121
     // background: #3F51B5
-    @include mboxshadow(1)
     padding-bottom: 2rem
     label:nth-child(1)
       display: inline
+      margin-right: 5rem
     label
       display: block
       margin: 1.5rem auto 
-    
     // &-date
     //   width: 14rem
     //   text-align: center
@@ -39,29 +39,37 @@
       padding: 0.6rem 1rem 
       border: none
       width: 240px
+      border-bottom: 2px solid #EF5350
+    input[type=date]
+      padding: 0.6rem 1rem 
+      border: none
+      background: #EF5350
+      font-weight: 700
+      font-size: 1.6rem
+      color: white
+      border: 1px solid white
+      border-radius: 2px
     select
       font-size: 1.6rem
       border: none
       width: 100px
-      background: white
+      margin-right: 1rem
+      background: #EF5350
+      font-weight: 700
+      font-size: 1.6rem
+      color: white
+      border: 1px solid white
+      border-radius: 2px
 
 
     &-center 
-      padding-top: 4%
+      // padding-top: 4%
       color: black
 
   &__content
     padding: 4rem
-    height: 30rem
+    height: 35rem
 
-    textarea
-      height: 15rem
-      width: 100%
-      resize: none
-      font-size: 1.6rem
-      text-align: left
-      padding: 0.6rem 1rem 
-      @include mboxshadow(1)
 
     .hell
       div
@@ -95,6 +103,14 @@
       @include mboxshadow(1)
       transition: all 0.3s cubic-bezier(.25, .8, .25, 1)
 
+    &-btn:hover
+      background: rgba($green, 0.7)
+      transform: translateY(-2px)
+    
+    &-btn:active
+      background: $green
+      transform: translateY(2px)
+
     &-cancel
       position: absolute
       visibility: visible
@@ -110,11 +126,24 @@
       @include mboxshadow(1)
       transition: all 0.3s cubic-bezier(.25, .8, .25, 1)
 
+      &:hover
+        background: rgba($red, 0.7)
+        transform: translateY(-2px)
+      &:active
+        background: $red
+        transform: translateY(2px)
 
 .test
+  padding-top: 0.7rem
+  padding-bottom: 0.7rem
+  margin-bottom: 4rem
+  font-weight: 700
+  @include mboxshadow(1)
+  background: rgba(#EF5350, 1)
   .time__input
     select
       padding: 0.6rem 1rem 
       border: none
 .quill 
-  height: 13rem
+  height: 17rem
+  font-size: 1.6rem
