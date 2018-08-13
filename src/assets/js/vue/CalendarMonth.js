@@ -33,9 +33,9 @@ export default class Calendar {
         for (let i = checkFirstMonth === false ? firstMonday : 1; i <= date; i++) {
           this.displayCalendar(i, date !== allDate[1] || checkFirstMonth === false ? 'fadeMonth' : `cm${this.month}`);
           if (checkFirstMonth === true && i === new Date().getDate() && month === new Date().getMonth()) {
-            document.querySelector(`.cm${this.month} .day${i}`).style.background = "#FF5722";
+            document.querySelector(`.cm${this.month} .day${i}`).style.background = "#424242";
             document.querySelector(`.cm${this.month} .day${i}`).style.color = 'white';
-            document.querySelector(`.cm${this.month} .day${i}`).parentElement.style.background = 'rgba(189,189,189,0.3)';
+            document.querySelector(`.cm${this.month} .day${i}`).parentElement.style.background = 'rgba(189,189,189,0.1)';
           }
         }
         checkFirstMonth = true;
