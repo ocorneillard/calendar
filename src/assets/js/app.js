@@ -112,7 +112,7 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
     if (storage.startHour !== undefined && check === 2) {
       let lastClick = event.target;
       if (createMeeting.verifyUI(firstClick.className, lastClick.className) === false) {
-        console.log('already taken !');
+        ('already taken !');
         check = 1;
         firstClick.style.background = "white";
         lastClick.style.background = "white";
@@ -246,19 +246,19 @@ function issetInfo() {
   
     if (e.target.className === 'card__footer-btn') {
       let tes = quill.getContents();
-      let res = {"g-recaptcha-response" : grecaptcha.getResponse()};
-      storage.post("submit", res)
-        .then( (response) => {
-          response = JSON.parse(response);
-          if (response.responseCode === 0) {
-            storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime(), tes));
-            createMeeting.reduce();
-          } else {
-            console.log('Captcha incorrect !');
-          }
-        });
-      // storage.addMeeting(createMeeting.validate(tes));
-      // createMeeting.reduce();
+      // let res = {"g-recaptcha-response" : grecaptcha.getResponse()};
+      // storage.post("submit", res)
+      //   .then( (response) => {
+      //     response = JSON.parse(response);
+      //     if (response.responseCode === 0) {
+      //       storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime(), tes));
+      //       createMeeting.reduce();
+      //     } else {
+      //       console.log('Captcha incorrect !');
+      //     }
+      //   });
+      storage.addMeeting(createMeeting.validate(tes));
+      createMeeting.reduce();
       if (calendarDay.isset === true) {
         calendarDay.CalendarGrid.innerHTML = "";
         displayDay(CalendarUI.saveDay);

@@ -43,3 +43,53 @@
   40% 
     -webkit-transform: scale(1.0)
     transform: scale(1.0)
+
+
+.send
+  position: fixed
+  display: grid
+  grid-template-columns: 75px 1fr
+  bottom: -50px
+  left: calc(50% - 250px)
+  width: 400px
+  height: 50px
+  .text
+    margin: auto
+    font-size: 1.6rem
+    color: $secondary-text
+    font-weight: 700
+
+
+.svg-container
+  text-align: right
+  margin-top: 7px
+.tick
+  stroke-dasharray: 29px
+  stroke-dashoffset: 29px
+
+
+.circle 
+  fill-opacity: 0
+  stroke: $green
+  stroke-width: 16px
+  transform-origin: center
+  transform: scale(0)
+
+
+@keyframes grow 
+    60% 
+        transform: scale(.8)
+        stroke-width: 4px
+        fill-opacity: 0
+    
+    100% 
+        transform: scale(.9)
+        stroke-width: 8px
+        fill-opacity: 1
+        fill: $green
+    
+
+
+@keyframes draw 
+    100% 
+      stroke-dashoffset: 0
