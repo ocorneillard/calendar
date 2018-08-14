@@ -112,7 +112,6 @@ calendarDay.CalendarGrid.addEventListener('click', (event) => {
     if (storage.startHour !== undefined && check === 2) {
       let lastClick = event.target;
       if (createMeeting.verifyUI(firstClick.className, lastClick.className) === false) {
-        ('already taken !');
         check = 1;
         firstClick.style.background = "white";
         lastClick.style.background = "white";
@@ -175,6 +174,32 @@ addMeeting.addEventListener('click', (e) => {
   e.preventDefault();
 });
 
+back.addEventListener('click', (e) => {
+  // Reset, take the property in CalendarMonth
+  let main = document.querySelector('main');
+  let calendarMonth = document.createElement('div');
+  calendarMonth.className = "calendar-grid";
+  calendarDay.CalendarGrid.innerHTML = "";
+  main.appendChild(calendar);
+  main.appendChild(CalendarUI.calendarGrid);
+  CalendarUI.titleMonth();
+  calendarDay.isset = false;
+  calendarDay.CalendarGrid.remove();
+  if (createMeeting.verifyNavbar === true) {
+    createMeeting.reduce();
+    createMeeting.verifyNavbar = false;
+  }
+  let firstDay = new Date(CalendarUI.year, CalendarUI.month, 0).getTime();
+  let lastDay = new Date(CalendarUI.year, CalendarUI.month+1, 0).getTime();
+  storage.getMeeting(firstDay, lastDay);
+  meeting.removeMeeting();
+  back.style.visibility = "hidden";
+  day = false;
+  week = false;
+  month = true;
+});
+
+
 function displayDay(saveDay) {
 
   CalendarUI.saveDay = saveDay;
@@ -184,30 +209,7 @@ function displayDay(saveDay) {
   let lastDay = new Date(CalendarUI.year, CalendarUI.month, CalendarUI.saveDay, 22).getTime();
   storage.getMeeting(firstDay, lastDay);
   back.style.visibility = "visible";
-  back.addEventListener('click', (e) => {
-
-    // Reset, take the property in CalendarMonth
-    let main = document.querySelector('main');
-    let calendarMonth = document.createElement('div');
-    calendarMonth.className = "calendar-grid";
-    calendarDay.CalendarGrid.innerHTML = "";
-    main.appendChild(calendar);
-    main.appendChild(CalendarUI.calendarGrid);
-    CalendarUI.titleMonth();
-    calendarDay.isset = false;
-    calendarDay.CalendarGrid.remove();
-    if (createMeeting.verifyNavbar === true) {
-      createMeeting.reduce();
-      createMeeting.verifyNavbar = false;
-    }
-
-    back.style.visibility = "hidden";
-    day = false;
-    week = false;
-    month = true;
-  });
 }
-
 
 function smoothScrollTo(endY, duration = 400) {
   const startY = window.pageYOffset,
@@ -246,19 +248,19 @@ function issetInfo() {
   
     if (e.target.className === 'card__footer-btn') {
       let tes = quill.getContents();
-      // let res = {"g-recaptcha-response" : grecaptcha.getResponse()};
-      // storage.post("submit", res)
-      //   .then( (response) => {
-      //     response = JSON.parse(response);
-      //     if (response.responseCode === 0) {
-      //       storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime(), tes));
-      //       createMeeting.reduce();
-      //     } else {
-      //       console.log('Captcha incorrect !');
-      //     }
-      //   });
-      storage.addMeeting(createMeeting.validate(tes));
-      createMeeting.reduce();
+      let res = {"g-recaptcha-response" : grecaptcha.getResponse()};
+      storage.post("submit", res)
+        .then( (response) => {
+          response = JSON.parse(response);
+          if (response.responseCode === 0) {
+            storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime(), tes));
+            createMeeting.reduce();
+          } else {
+            console.log('Captcha incorrect !');
+          }
+        });
+      // storage.addMeeting(createMeeting.validate(tes));
+      // createMeeting.reduce();
       if (calendarDay.isset === true) {
         calendarDay.CalendarGrid.innerHTML = "";
         displayDay(CalendarUI.saveDay);

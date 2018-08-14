@@ -36,6 +36,13 @@ export default class Meeting {
     }
   }
 
+  removeMeeting() {
+    let events = document.querySelectorAll('.event');
+    let eventMore = document.querySelectorAll('.event_more');
+    eventMore.forEach(event => event.remove());
+    events.forEach(event => event.remove());
+  }
+
   displayMeetingHours(res, color) {
     let selectUI;
     let start = new Date(res.start).getHours();
