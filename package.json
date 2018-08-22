@@ -29,6 +29,6 @@
     "webpack-dev-server": "^2.11.2"
   },
   "dependencies": {
-    "npm": "^6.3.0"
+    "npm": "^6.4.0"
   }
 }
