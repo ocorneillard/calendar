@@ -88,15 +88,18 @@ export default class AddMeeting {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     name = name.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
     re = re.test(String(email).toLowerCase());
-
+    console.log(tes);
     name = name.trim();
     let submit = {
       start,
       end,
       name,
-      "persons" : number,
-      "desc" : tes,
-      email
+      email,
+      persons : number,
+      comment : tes,
+      room: "1",
+      adminResponse: null,
+      state: null
     };
 
     function getHours(timeInput, checkHour) {

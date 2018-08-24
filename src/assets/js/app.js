@@ -253,7 +253,7 @@ function issetInfo() {
         .then( (response) => {
           response = JSON.parse(response);
           if (response.responseCode === 0) {
-            storage.addMeeting(createMeeting.validate(storage.startHour.getTime(), storage.endHour.getTime(), tes));
+            storage.addMeeting(createMeeting.validate(tes));
             createMeeting.reduce();
           } else {
             console.log('Captcha incorrect !');
@@ -266,5 +266,6 @@ function issetInfo() {
         displayDay(CalendarUI.saveDay);
       }
     }
+    e.preventDefault();
   });
 }
