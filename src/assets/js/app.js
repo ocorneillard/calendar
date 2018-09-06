@@ -3,7 +3,7 @@ import CalendarDay from './vue/CalendarDay';
 import Storage from './model/Storage';
 import Meeting from './vue/Meeting';
 import AddMeeting from './vue/AddMeeting';
-
+import flatpickr from 'flatpickr';
 // Init class 
 /**
  * CalendarUI => main calendar
@@ -251,7 +251,6 @@ function issetInfo() {
       let res = {"g-recaptcha-response" : grecaptcha.getResponse()};
       storage.post("submit", res)
         .then( (response) => {
-          response = JSON.parse(response);
           if (response.responseCode === 0) {
             storage.addMeeting(createMeeting.validate(tes));
             createMeeting.reduce();

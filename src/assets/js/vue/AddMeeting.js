@@ -1,5 +1,5 @@
 // import Storage from "../model/Storage";
-
+import flatpickr from 'flatpickr';
 // let storage = new Storage;
 
 export default class AddMeeting {
@@ -26,7 +26,7 @@ export default class AddMeeting {
           <form action="#" id="comment_form">
             <div class="test">
             <label for="date">
-            <input type="date" id="date" class="card__title-date" value="${this.getFormattedDate(new Date(start))}">
+            <input type="date" id="date" class="card__title-date" value="${new Date(start).getFullYear()}-${(new Date(start).getMonth()+1) <= 10 ? "0" + (new Date(start).getMonth()+1): new Date(start).getMonth()+1}-${(new Date(start).getDate()) <= 10 ? "0" + new Date(start).getDate(): new Date(start).getDate()}">
             </label>
             </div>
             <label for="name">
@@ -36,6 +36,16 @@ export default class AddMeeting {
             <label for="person">
                 <i class="fas fa-users"></i>
               <input type="number" id="person" placeholder="How many persons ?" class="day-number">
+            </label>
+            <label for="room">
+              <select id="room">
+                <option>
+                  Solarium (12)
+                </option>
+                <option>
+                  Delivery Room (6)
+                </option>
+              </select>
             </label>
             <label for="email">
                 <i class="far fa-envelope"></i>
@@ -64,13 +74,16 @@ export default class AddMeeting {
           </div>
       </div>
     </div>`;
-    // <input type="submit" class="card__footer-btn" value="SAVE"/>
-    //             <textarea placeholder="Add a description to your meeting..."></textarea>
+    flatpickr('#date', {
+      allowInput: true,
+      altInput: true,
+      altFormat: "F j Y"
+      // dateFormat: "",
+    });
     setTimeout(() => {
       recaptcha();
     }, 200)
   }
-
   reduce() {
     document.querySelector('.card').remove();
     this.body.style.background = "";
@@ -84,11 +97,12 @@ export default class AddMeeting {
     time = document.querySelector('#date');
     let value = time.value.split('-');
     let start = new Date(value[0], value[1] - 1, value[2], getHours(timeInputs[0], 1), getHours(timeInputs[0], 0)).getTime();
+    console.log(new Date(start).getDate());
     let end = new Date(value[0], value[1] - 1, value[2], getHours(timeInputs[1], 1), getHours(timeInputs[1], 0)).getTime();
+    console.log(new Date(end).getDate());
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     name = name.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
     re = re.test(String(email).toLowerCase());
-    console.log(tes);
     name = name.trim();
     let submit = {
       start,
